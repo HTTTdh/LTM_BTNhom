@@ -11,7 +11,7 @@ public class Article {
     private int user_id;
 
     private static int count = 0;
-
+    public Article() {}
     public Article(String title, String content, String category, int user_id) {
         this.id = ++count;
         this.title = title;
