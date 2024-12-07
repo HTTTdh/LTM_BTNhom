@@ -1,6 +1,7 @@
 <%@ page import="Model.Bean.Article" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="Model.Bean.Category" %>
+<%@ page import="Model.Bean.ArticleShow" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <!DOCTYPE html>
@@ -180,11 +181,11 @@
 
 </script>
 <%
-    ArrayList<Article> top10Articles = (ArrayList<Article>) request.getAttribute("articles");
+    ArrayList<ArticleShow> top10Articles = (ArrayList<ArticleShow>) request.getAttribute("articles");
     ArrayList<Category> categories = (ArrayList<Category>) request.getAttribute("categories");
 
-    Article mainArticle = top10Articles.get(0);
-    ArrayList<Article> sideMainArticles = new ArrayList<>(top10Articles.subList(1, 3));
+    ArticleShow mainArticle = top10Articles.get(0);
+    ArrayList<ArticleShow> sideMainArticles = new ArrayList<>(top10Articles.subList(1, 3));
 %>
 <body>
 <header class="header">
@@ -244,7 +245,8 @@
 <%--            Bài báo lớn: Tiêu đề bài báo--%>
         </h1>
         <p>Đoạn văn mở đầu của bài báo lớn </p>
-        <img src="large-article-image.jpg" alt="Hình ảnh bài báo lớn" class="large-article-image">
+        <img src="<%= mainArticle.getFirst_image() %>" alt="Hình ảnh bài báo lớn" class="large-article-image">
+<%--        <img src="large-article-image.jpg" alt="Hình ảnh bài báo lớn" class="large-article-image">--%>
         <p>
             <%= mainArticle.getContent() %>
 <%--            Đoạn nội dung bài báo lớn sẽ được trình bày ở đây...--%>
@@ -298,10 +300,10 @@
         <div class="right-articles">
             <div class="right-article">
                 <%
-                    for (Article article : sideMainArticles) {
+                    for (ArticleShow article : sideMainArticles) {
                 %>
                     <h3><%= article.getTitle() %></h3>
-                    <img src="right-article-1.jpg" alt="Hình ảnh bài viết lớn 1" class="right-article-image">
+                    <img src="<%= article.getFirst_image() %>" alt="Hình ảnh bài viết lớn 1" class="right-article-image">
                     <p><%= article.getContent() %></p>
                 <%
                  }

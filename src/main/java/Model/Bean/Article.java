@@ -10,7 +10,7 @@ public class Article {
     private Date created_at;
     private int user_id;
 
-
+    public Article() {}
     public Article(String title, String content, String category, int user_id) {
         this.title = title;
         this.content = content;

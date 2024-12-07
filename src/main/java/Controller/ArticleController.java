@@ -2,6 +2,7 @@ package Controller;
 
 import Model.BO.ArticleBO;
 import Model.Bean.Article;
+import Model.Bean.ArticleShow;
 import Model.Bean.Category;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -51,7 +52,7 @@ public class ArticleController extends HttpServlet {
         String pageParam = req.getParameter("page");
         int page = (pageParam != null) ? Integer.parseInt(pageParam) : 1;
 
-        ArrayList<Article> articles = bo.getTenArticlesAtPage(page);
+        ArrayList<ArticleShow> articles = bo.getTenArticlesAtPage(page);
         req.setAttribute("articles", articles);
 
         ArrayList<Category> categories = bo.getAllCategories();
@@ -64,7 +65,7 @@ public class ArticleController extends HttpServlet {
         String keyword = req.getParameter("keyword");
         String pageParam = req.getParameter("page");
         int page = (pageParam != null) ? Integer.parseInt(pageParam) : 1;
-        ArrayList<Article> articles = bo.searchArticles(keyword, page);
+        ArrayList<ArticleShow> articles = bo.searchArticles(keyword, page);
 
         req.setAttribute("articles", articles);
         req.getRequestDispatcher("/searchResults.jsp").forward(req, resp);

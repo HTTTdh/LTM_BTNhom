@@ -1,7 +1,7 @@
 package Model.BO;
 
 import Model.Bean.Article;
-import Model.Bean.ArticleDTO;
+import Model.Bean.ArticleShow;
 import Model.Bean.Category;
 import Model.DAO.ArticleDAO;
 
@@ -9,14 +9,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class ArticleBO {
     public ArticleDAO dao = new ArticleDAO();
-    public ArrayList<Article> getAllArticles() {
-        return dao.getAllArticles();
+    public UserBO userBO = new UserBO();
+    public ArrayList<ArticleShow> getAllArticles() {
+        return dao.getAllArticles().stream().map(this::mapToArticleResponseWithImage).collect(Collectors.toCollection(ArrayList::new));
     }
-    public ArrayList<Article> getTenArticlesAtPage(int page) {
-        return dao.getTenArticlesAtPage(page);
+    public ArrayList<ArticleShow> getTenArticlesAtPage(int page) {
+        return dao.getTenArticlesAtPage(page).stream().map(this::mapToArticleResponseWithImage).collect(Collectors.toCollection(ArrayList::new));
     }
 
     public ArrayList<Category> getAllCategories() {
@@ -31,22 +33,22 @@ public class ArticleBO {
         return dao.deleteArticle(id);
     }
 
-    public ArrayList<Article> searchArticles(String keyword, int page) {
-        return dao.searchArticles(keyword, page);
+    public ArrayList<ArticleShow> searchArticles(String keyword, int page) {
+        return dao.searchArticles(keyword, page).stream().map(this::mapToArticleResponseWithImage).collect(Collectors.toCollection(ArrayList::new));
     }
 
-    private ArticleDTO mapToArticleResponseWithImage(Article article) {
+    private ArticleShow mapToArticleResponseWithImage(Article article) {
         String firstImage = extractFirstImage(article.getContent());
-        ArticleDTO articleDTO = new ArticleDTO(
+        ArticleShow articleShow = new ArticleShow(
                 article.getId(),
                 article.getTitle(),
                 article.getContent(),
                 article.getCategory(),
                 article.getCreated_at(),
-                "Chau Thi",
+                userBO.mapToUserShow(userBO.getUserById(article.getUser_id())),
                 firstImage
         );
-        return articleDTO;
+        return articleShow;
     }
 
     private String extractFirstImage(String content) { // tìm tất cả các thẻ hình ảnh <img> trong nội dung bài viết.
