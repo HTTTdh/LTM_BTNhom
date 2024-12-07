@@ -1,0 +1,182 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+.header {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 10px 20px;
+}
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left : 100px;
+    padding-right: 100px;
+}
+.logo {
+    width: 120px;
+}
+.text {
+    font-size: 14px;
+    color: #666;
+}
+select {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+input[type="search"] {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+nav ul li {
+    flex: 1;
+    text-align: center;
+}
+nav ul li a {
+    text-decoration: none;
+    font-size: 14px;
+    color: #333;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+nav ul li a:hover {
+    background-color: #f0f0f0;
+}
+
+/* Dropdown menu hidden by default */
+nav ul li {
+    position: relative;
+}
+
+nav ul li .dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    min-width: 150px;
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li .dropdown li a {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: black;
+    background-color: white;
+}
+
+nav ul li .dropdown li a:hover {
+    background-color: #f5f5f5;
+}
+
+/* Hiển thị dropdown khi hover */
+nav ul li:hover .dropdown {
+    display: block;
+}
+
+.icon {
+    margin-right: 5px;
+}
+.hamburger-menu {
+    width: 25px;
+    height: 3px;
+    background-color: #333;
+    margin: 4px auto;
+}
+.current-path {
+    height: 40px;
+    background-color: rgb(235, 235, 235);
+    border-radius: 8px;
+    padding: 10px;
+    box-sizing: border-box;
+    color: rgb(107, 109, 111);
+    font-family: 'Times New Roman', Times, serif;
+}
+
+/*footer*/
+footer {
+    background-color: #333;
+    color: white;
+    padding: 20px 0;
+    font-size: 14px;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.footer-left p {
+    margin: 0;
+    font-size: 12px;
+}
+
+.footer-middle ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.footer-middle ul li {
+    margin-right: 20px;
+}
+
+.footer-middle ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+.footer-middle ul li a:hover {
+    text-decoration: underline;
+}
+
+.footer-right ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.footer-right ul li {
+    margin-left: 20px;
+}
+
+.footer-right ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.footer-right ul li a:hover {
+    color: #ccc;
+}
+
+.social-icon {
+    font-size: 20px;
+    transition: color 0.3s ease;
+}
+
+.social-icon:hover {
+    color: #1da1f2; /* Màu Twitter khi hover */
+}

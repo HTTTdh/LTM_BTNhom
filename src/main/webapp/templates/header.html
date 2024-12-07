@@ -1,0 +1,111 @@
+<header class="header">
+  <div class="header-content">
+    <img src="../static/resources/logo.png" alt="Logo" class="logo">
+    <div class="text">
+      <span id="current-date"></span>
+    </div>
+    <div>
+      <label for="location-select">Địa điểm: </label>
+      <select id="location-select">
+        <option value="HaNoi">Hà Nội</option>
+        <option value="HoChiMinh">Hồ Chí Minh</option>
+        <option value="DaNang">Đà Nẵng</option>
+        <option value="HaiPhong">Hải Phòng</option>
+        <option value="CanTho">Cần Thơ</option>
+      </select>
+    </div>
+    <!-- Biểu tượng mây và nhiệt độ sát bên select -->
+    <div class="weather-info">
+      <i class="fas fa-cloud"></i> <!-- Biểu tượng mây -->
+      <span>21°C</span> <!-- Nhiệt độ -->
+    </div>
+    <div>
+      <input type="search" placeholder="Tìm kiếm thông tin...">
+    </div>
+    <div>
+      <button>
+        <i class="fas fa-sign-in-alt"></i> Đăng nhập
+      </button>
+    </div>
+    <div>
+      <i class="fas fa-bell"></i>
+    </div>
+  </div>
+  <nav style="padding-top: 25px; padding-bottom: 15px;">
+    <ul>
+      <li><a href="#"><i class="fas fa-home"></i></a>
+      </li> <!-- Biểu tượng Home -->
+      <li><a href="#">Thời sự</a>
+        <ul class="dropdown">
+          <li><a href="#">Bình luận</a></li>
+          <li><a href="#">Chuyên gia</a></li>
+        </ul>
+      </li>
+      <li><a href="#">Kinh doanh</a>
+        <ul class="dropdown">
+          <li><a href="#">Bình luận</a></li>
+          <li><a href="#">Chuyên gia</a></li>
+        </ul>
+      </li>
+      <li><a href="#">Khoa học</a>
+        <ul class="dropdown">
+          <li><a href="#">Bình luận</a></li>
+          <li><a href="#">Chuyên gia</a></li>
+        </ul>
+      </li>
+      <li><a href="#">Giải trí</a>
+        <ul class="dropdown">
+          <li><a href="#">Bình luận</a></li>
+          <li><a href="#">Chuyên gia</a></li>
+        </ul>
+      </li>
+      <li><a href="#">Thể thao</a>
+        <ul class="dropdown">
+          <li><a href="#">Bình luận</a></li>
+          <li><a href="#">Chuyên gia</a></li>
+        </ul>
+      </li>
+      <li><a href="#">Pháp luật</a>
+        <ul class="dropdown">
+          <li><a href="#">Bình luận</a></li>
+          <li><a href="#">Chuyên gia</a></li>
+        </ul>
+      </li>
+      <li><a href="#">Giáo dục</a>
+        <ul class="dropdown">
+          <li><a href="#">Bình luận</a></li>
+          <li><a href="#">Chuyên gia</a></li>
+        </ul>
+      </li>
+      <li><a href="#">Sức khoẻ</a>
+        <ul class="dropdown">
+          <li><a href="#">Bình luận</a></li>
+          <li><a href="#">Chuyên gia</a></li>
+        </ul>
+      </li>
+      <li>
+        <div class="hamburger-menu"></div>
+        <div class="hamburger-menu"></div>
+        <div class="hamburger-menu"></div>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+
+<script>
+  // Hiển thị ngày tháng năm hiện tại
+  const currentDate = new Date();
+  document.getElementById('current-date').textContent = currentDate.toLocaleDateString('vi-VN', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+
+  // Thay đổi địa điểm theo lựa chọn
+  const locationSelect = document.getElementById('location-select');
+  locationSelect.addEventListener('change', function() {
+    alert(`Bạn đã chọn địa điểm: ${this.options[this.selectedIndex].text}`);
+  });
+</script>

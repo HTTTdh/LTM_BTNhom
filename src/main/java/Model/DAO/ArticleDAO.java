@@ -40,7 +40,7 @@ public class ArticleDAO {
         int offset = (page - 1) * PAGE_SIZE;
         try{
             Connection con = DBHelper.getConnection();
-            String sql = "SELECT * FROM articles ORDER BY created_at DESC LIMIT ? OFFSET ?";
+            String sql = "SELECT * FROM Article ORDER BY created_at DESC LIMIT ? OFFSET ?";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, PAGE_SIZE);
             stmt.setInt(2, offset);
@@ -66,17 +66,48 @@ public class ArticleDAO {
             return null;
         }
     }
+    public ArrayList<Article> getArticlesOfUser(int user_id, int page)  {
+        int offset = (page - 1) * PAGE_SIZE;
+        try{
+            Connection con = DBHelper.getConnection();
+            String sql = "SELECT * FROM Article WHERE user_id = ? ORDER BY created_at DESC LIMIT ? OFFSET ?";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, user_id);
+            stmt.setInt(2, PAGE_SIZE);
+            stmt.setInt(3, offset);
+
+            ResultSet rs = stmt.executeQuery();
+            ArrayList<Article> articles = new ArrayList<>();
+            while (rs.next()) {
+                articles.add(new Article(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getDate(5),
+                        rs.getInt(6)
+                ));
+            }
+
+            rs.close();
+            stmt.close();
+            return articles;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
     public boolean addNewArticle(Article article) {
         try {
             Connection con = DBHelper.getConnection();
-            String query = "INSERT INTO Article VALUE (?, ? ,? , ?, ?, ?)";
+            String query = "INSERT INTO Article(title, content, category, created_at, user_id) VALUE (? ,? , ?, ?, ?)";
             PreparedStatement statement = con.prepareStatement(query);
-            statement.setInt(1, article.getId());
-            statement.setString(2, article.getTitle());
-            statement.setString(3, article.getContent() );
-            statement.setString(4, article.getCategory().name());
-            statement.setDate(5, new Date(article.getCreated_at().getTime()));
-            statement.setInt(6, article.getUser_id());
+//            statement.setInt(1, article.getId());
+            statement.setString(1, article.getTitle());
+            statement.setString(2, article.getContent() );
+            statement.setString(3, article.getCategory().name());
+            statement.setDate(4, new Date(article.getCreated_at().getTime()));
+            statement.setInt(5, article.getUser_id());
             statement.executeUpdate();
             return true;
         } catch (Exception e) {
@@ -84,13 +115,29 @@ public class ArticleDAO {
             return false;
         }
     }
-    public ArrayList<Article> searchArticles(String keyword) {
+    public boolean deleteArticle(int id) {
         try {
             Connection con = DBHelper.getConnection();
-            String query = "SELECT * FROM Article WHERE title LIKE ? ORDER BY created_at DESC LIMIT ?";
+            String query = "DELETE FROM Article WHERE id = ?";
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setInt(1, id);
+            statement.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public ArrayList<Article> searchArticles(String keyword, int page) {
+        int offset = (page - 1) * PAGE_SIZE;
+        try {
+            Connection con = DBHelper.getConnection();
+            String query = "SELECT * FROM Article WHERE title LIKE ? ORDER BY created_at DESC LIMIT ? OFFSET ?";
             PreparedStatement statement = con.prepareStatement(query);
             statement.setString(1, "%" + keyword + "%");
             statement.setInt(2, PAGE_SIZE);
+            statement.setInt(3, offset);
 
             ResultSet rs = statement.executeQuery();
             ArrayList<Article> articles = new ArrayList<>();

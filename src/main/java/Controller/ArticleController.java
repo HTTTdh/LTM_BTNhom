@@ -42,7 +42,9 @@ public class ArticleController extends HttpServlet {
         if (errorMessage != null) {
             req.setAttribute("errorMessage", errorMessage);
         }
-        req.getRequestDispatcher("AddPage.jsp").forward(req, resp);
+        ArrayList<Category> categories = bo.getAllCategories();
+        req.setAttribute("categories", categories);
+        req.getRequestDispatcher("/templates/AddArticle.jsp").forward(req, resp);
     }
 
     private void showHome(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -55,12 +57,14 @@ public class ArticleController extends HttpServlet {
         ArrayList<Category> categories = bo.getAllCategories();
         req.setAttribute("categories", categories);
 
-        req.getRequestDispatcher("Article.jsp").forward(req, resp);
+        req.getRequestDispatcher("/templates/PageHome.jsp").forward(req, resp);
     }
 
     private void showSearchResult(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String keyword = req.getParameter("keyword");
-        ArrayList<Article> articles = bo.searchArticles(keyword);
+        String pageParam = req.getParameter("page");
+        int page = (pageParam != null) ? Integer.parseInt(pageParam) : 1;
+        ArrayList<Article> articles = bo.searchArticles(keyword, page);
 
         req.setAttribute("articles", articles);
         req.getRequestDispatcher("/searchResults.jsp").forward(req, resp);
@@ -77,10 +81,24 @@ public class ArticleController extends HttpServlet {
                 case "edit":
                     handleEdit(req, resp);
                     return;
-
+                    case "delete":
+                    handleDelete(req, resp);
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void handleDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        String id = req.getParameter("id");
+        int article_id = Integer.parseInt(id);
+        boolean result = bo.deleteArticle(article_id);
+
+        if (result) {
+            resp.sendRedirect("article?action=home");
+        } else {
+            req.setAttribute("errorMessage", "Failed to delete article");
+            req.getRequestDispatcher("YourArticles.jsp").forward(req, resp);
         }
     }
 
@@ -89,7 +107,8 @@ public class ArticleController extends HttpServlet {
         String content = req.getParameter("content");
         String category = req.getParameter("category");
         HttpSession session = req.getSession();
-        int user_id = (int) session.getAttribute("user_id");
+//        int user_id = (int) session.getAttribute("user_id");
+        int user_id = 1;
 
         Article article = new Article(title, content, category, user_id);
         boolean result = bo.addArticle(article);
@@ -97,8 +116,8 @@ public class ArticleController extends HttpServlet {
         if (result) {
             resp.sendRedirect("article?action=home");
         } else {
-            req.setAttribute("errorMessage", "Failed to add article");
-            req.getRequestDispatcher("AddPage.jsp").forward(req, resp);
+//            req.setAttribute("errorMessage", "Failed to add article");
+//            req.getRequestDispatcher("/templates/AddArticle.jsp").forward(req, resp);
         }
 
     }

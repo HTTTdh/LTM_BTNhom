@@ -10,10 +10,8 @@ public class Article {
     private Date created_at;
     private int user_id;
 
-    private static int count = 0;
 
     public Article(String title, String content, String category, int user_id) {
-        this.id = ++count;
         this.title = title;
         this.content = content;
         this.category = Category.valueOf(category);
