@@ -1,7 +1,5 @@
-<%@ page import="Model.Bean.Article" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="Model.Bean.Category" %>
-<%@ page import="Model.Bean.ArticleShow" %>
+<%@ page import="Model.Bean.*" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <!DOCTYPE html>
@@ -27,9 +25,17 @@
 
         /* Định dạng cho bài báo lớn */
         .main-article {
+            max-width: 1300px;
+            max-height: 700px;
+            overflow: hidden;
             margin: 20px;
             padding: 20px;
             background-color: #f9f9f9;
+
+            /* Sử dụng Flexbox để sắp xếp nội dung theo hàng ngang */
+            display: flex;
+            flex-direction: row;
+            gap: 20px; /* Khoảng cách giữa ảnh và nội dung */
         }
 
         .main-article h1 {
@@ -43,13 +49,20 @@
         }
 
         .large-article-image {
-            width: 100%;
+            max-width: 800px;
             height: auto;
             margin-top: 20px;
         }
 
+        /* Tạo một container để gom nhóm tiêu đề và đoạn văn */
+        .article-content {
+            display: flex;
+            flex-direction: column;
+        }
+
         /* Định dạng cho 3 bài baos nhỏ */
         .small-articles {
+            gap: 10px;
             display: flex;
             justify-content: space-between;
             margin: 20px;
@@ -126,17 +139,18 @@
 
         /* Định dạng cho các bài viết phía dưới */
         .bottom-articles {
+            gap: 20px;
             display: flex;
             justify-content: space-between;
             margin: 20px;
         }
 
         .left-articles {
-            width: 60%;
+            width: 100%;
         }
 
         .right-articles {
-            width: 35%;
+            width: 100%;
         }
 
         /* Định dạng cho bài viết bên trái */
@@ -183,9 +197,19 @@
 <%
     ArrayList<ArticleShow> top10Articles = (ArrayList<ArticleShow>) request.getAttribute("articles");
     ArrayList<Category> categories = (ArrayList<Category>) request.getAttribute("categories");
+    ArrayList<String> introductionLines = (ArrayList<String>) request.getAttribute("introductionLines");
 
     ArticleShow mainArticle = top10Articles.get(0);
+    String mainLine = introductionLines.get(0);
+
     ArrayList<ArticleShow> sideMainArticles = new ArrayList<>(top10Articles.subList(1, 3));
+    ArrayList<String> sideMainLines = new ArrayList<>(introductionLines.subList(1, 3));
+
+    ArrayList<ArticleShow> miniArticles = new ArrayList<>(top10Articles.subList(3, 6));
+    ArrayList<String> miniLines = new ArrayList<>(introductionLines.subList(3, 6));
+
+    ArrayList<ArticleShow> normalArticles = new ArrayList<>(top10Articles.subList(6, 10));
+    ArrayList<String> normalLines = new ArrayList<>(introductionLines.subList(6, 10));
 %>
 <body>
 <header class="header">
@@ -209,8 +233,15 @@
             <button> Submit </button>
         </div>
         <div>
+            <% UserShow user = (UserShow) session.getAttribute("user"); %>
+            <h4>
+                Xin chào,
+                <%=user.getFullName() %>
+            </h4>
+        </div>
+        <div>
             <button>
-                <i class="fas fa-sign-in-alt"></i> Đăng nhập
+                <i class="fas fa-sign-in-alt"></i> Đăng xuất
             </button>
         </div>
         <div>
@@ -219,7 +250,7 @@
     </div>
     <nav style="padding-top: 25px; padding-bottom: 15px;">
         <ul>
-            <li><a href="#"><i class="fas fa-home" style ="font-size: 25px;"></i></a></li>
+            <li><a href="/home"><h3>Trang chủ</h3></a></li>
             <%
                 for (Category category : categories) {
             %>
@@ -228,6 +259,7 @@
             <%
                 }
             %>
+            <li><a href="/article?action=add"><h3>Đăng bài</h3></a>
             <li><a href="#">
                 <div class="hamburger-menu"></div>
                 <div class="hamburger-menu"></div>
@@ -240,71 +272,53 @@
 
 <main>
     <div class="main-article">
-        <h1>
-            <%= mainArticle.getTitle() %>
-<%--            Bài báo lớn: Tiêu đề bài báo--%>
-        </h1>
-        <p>Đoạn văn mở đầu của bài báo lớn </p>
         <img src="<%= mainArticle.getFirst_image() %>" alt="Hình ảnh bài báo lớn" class="large-article-image">
-<%--        <img src="large-article-image.jpg" alt="Hình ảnh bài báo lớn" class="large-article-image">--%>
-        <p>
-            <%= mainArticle.getContent() %>
-<%--            Đoạn nội dung bài báo lớn sẽ được trình bày ở đây...--%>
-        </p>
+
+        <div class="article-content">
+            <h1><a href="#"> <%= mainArticle.getTitle() %></a> </h1>
+            <p><%= mainLine %></p>
+        </div>
     </div>
 
     <div class="small-articles">
         <h2>Bài viết liên quan</h2>
+            <% for (int i = 0; i < miniArticles.size(); i++) {
+                ArticleShow article = miniArticles.get(i);
+                String line = miniLines.get(i);
+            %>
         <div class="small-article">
-            <img src="small-article-1.jpg" alt="Hình ảnh bài viết 1" class="small-article-image">
-            <h3><a href="#">Tiêu đề bài viết nhỏ 1</a></h3>
-            <p>Đoạn văn mô tả ngắn về bài viết nhỏ 1...</p>
+            <img src="<%= article.getFirst_image() %>" alt="Hình ảnh bài viết <%= i %>" class="small-article-image">
+            <h3><a href="#"><%= article.getTitle() %></a></h3>
+            <p><%= line %></p>
         </div>
-        <div class="small-article">
-            <img src="small-article-2.jpg" alt="Hình ảnh bài viết 2" class="small-article-image">
-            <h3><a href="#">Tiêu đề bài viết nhỏ 2</a></h3>
-            <p>Đoạn văn mô tả ngắn về bài viết nhỏ 2...</p>
-        </div>
-        <div class="small-article">
-            <img src="small-article-3.jpg" alt="Hình ảnh bài viết 3" class="small-article-image">
-            <h3><a href="#">Tiêu đề bài viết nhỏ 3</a></h3>
-            <p>Đoạn văn mô tả ngắn về bài viết nhỏ 3...</p>
-        </div>
+            <% } %>
     </div>
 
     <!-- Chia trang làm hai phần: Bên trái 4 bài báo, bên phải 2 bài báo lớn hơn -->
     <div class="bottom-articles">
         <div class="left-articles">
-            <div class="left-article">
-                <h3>Tiêu đề bài viết 1</h3>
-                <img src="left-article-1.jpg" alt="Hình ảnh bài viết 1" class="left-article-image">
-                <p>Đoạn mô tả về bài viết 1...</p>
-            </div>
-            <div class="left-article">
-                <h3>Tiêu đề bài viết 2</h3>
-                <img src="left-article-1.jpg" alt="Hình ảnh bài viết 1" class="left-article-image">
-                <p>Đoạn mô tả về bài viết 2...</p>
-            </div>
-            <div class="left-article">
-                <h3>Tiêu đề bài viết 3</h3>
-                <img src="left-article-1.jpg" alt="Hình ảnh bài viết 1" class="left-article-image">
-                <p>Đoạn mô tả về bài viết 3...</p>
-            </div>
-            <div class="left-article">
-                <h3>Tiêu đề bài viết 4</h3>
-                <img src="left-article-1.jpg" alt="Hình ảnh bài viết 1" class="left-article-image">
-                <p>Đoạn mô tả về bài viết 4...</p>
-            </div>
+            <% for (int i = 0; i < normalArticles.size(); i++) {
+                ArticleShow article = normalArticles.get(i);
+                String line = normalLines.get(i);
+            %>
+                <div class="left-article">
+                    <h3><a href="#"> <%= article.getTitle() %> </a></h3>
+                    <img src="<%= article.getFirst_image() %>" style="max-width: 400px" alt="Hình ảnh bài viết 1" class="left-article-image">
+                    <p> <%=line%> </p>
+                </div>
+            <% } %>
         </div>
 
         <div class="right-articles">
             <div class="right-article">
                 <%
-                    for (ArticleShow article : sideMainArticles) {
+                    for (int i = 0; i < sideMainArticles.size(); i++) {
+                        ArticleShow article = sideMainArticles.get(i);
+                        String line = sideMainLines.get(i);
                 %>
                     <h3><%= article.getTitle() %></h3>
-                    <img src="<%= article.getFirst_image() %>" alt="Hình ảnh bài viết lớn 1" class="right-article-image">
-                    <p><%= article.getContent() %></p>
+                    <img src="<%= article.getFirst_image() %>" style="max-width: 480px" alt="Hình ảnh bài viết lớn 1" class="right-article-image">
+                    <p><%= line %></p>
                 <%
                  }
                 %>

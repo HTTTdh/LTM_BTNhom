@@ -55,6 +55,9 @@ public class ArticleController extends HttpServlet {
         ArrayList<ArticleShow> articles = bo.getTenArticlesAtPage(page);
         req.setAttribute("articles", articles);
 
+        ArrayList<String> introductionLines = bo.getIntroductionLines(articles);
+        req.setAttribute("introductionLines", introductionLines);
+
         ArrayList<Category> categories = bo.getAllCategories();
         req.setAttribute("categories", categories);
 

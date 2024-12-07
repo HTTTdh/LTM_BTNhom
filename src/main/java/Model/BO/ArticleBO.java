@@ -58,4 +58,29 @@ public class ArticleBO {
         return matcher.find() ? matcher.group(1) : null;
     }
 
+    public ArrayList<String> getIntroductionLines(ArrayList<ArticleShow> articles){
+        ArrayList<String> result = new ArrayList<>();
+        for (ArticleShow article : articles) {
+            String content = article.getContent();
+            String line = "Click để xem chi tiết";
+            int startIndex = 0;
+
+            // Xác định vị trí của <div> đầu tiên
+            if (content.startsWith("<div>")) {
+                startIndex = content.indexOf("<div>") + "<div>".length();
+            }
+
+            // Xác định vị trí của dấu chấm đầu tiên sau <div>
+            int endIndex = content.indexOf(".", startIndex);
+
+            // Kiểm tra nếu cả hai chỉ số hợp lệ
+            if (startIndex >= 0 && endIndex > startIndex) {
+                line = content.substring(startIndex, endIndex + 1);
+                result.add(line);
+            }
+        }
+        return result;
+    }
+
+
 }

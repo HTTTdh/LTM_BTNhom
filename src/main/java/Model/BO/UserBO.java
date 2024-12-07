@@ -16,4 +16,11 @@ public class UserBO {
         }
         return new UserShow(user.getId(), user.getFullName(), user.getUsername(), user.isActive(), role);
     }
+    public UserShow login(String username, String password){
+        User user = dao.login(username, password);
+        if (user == null){
+            return null;
+        }
+        return mapToUserShow(user);
+    }
 }

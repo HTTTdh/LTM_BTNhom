@@ -27,7 +27,7 @@
 }
 
 .large-article-image {
-    width: 100%;
+    max-width: 800px;
     height: auto;
     margin-top: 20px;
 }

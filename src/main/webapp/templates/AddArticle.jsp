@@ -101,7 +101,9 @@
       box-sizing: border-box;
   }
 
-  button {
+  button[type="submit"],
+  button[id="imagePickerButton"]
+  {
       background-color: #4CAF50;
       color: white;
       padding: 10px 20px;
@@ -110,7 +112,8 @@
       cursor: pointer;
   }
 
-  button:hover {
+  button[type="submit"]:hover,
+  button[id="imagePickerButton"]:hover {
       background-color: #45a049;
   }
 
@@ -133,7 +136,7 @@
       overflow-y: auto;
   }
 
-  select {
+  select[id="select-category"] {
       width: 100%;
       padding: 10px 15px;
       font-size: 16px;
@@ -188,7 +191,7 @@
     </div>
     <nav style="padding-top: 25px; padding-bottom: 15px;">
         <ul>
-            <li><a href="#"><i class="fas fa-home" style ="font-size: 25px;"></i></a></li>
+            <li><a href="/home"><h3>Trang chủ</h3></a></li>
             <%
                 for (Category category : categories) {
             %>
@@ -197,6 +200,7 @@
             <%
                 }
             %>
+            <li><a href="#"><h3>Đăng bài</h3></a>
             <li><a href="#">
                 <div class="hamburger-menu"></div>
                 <div class="hamburger-menu"></div>
@@ -260,7 +264,7 @@
       </div>
 
         <div class="form-group">
-            <label for="category">Chuyên mục:</label>
+            <label for="category" id="select-category">Chuyên mục:</label>
             <select id="category" name="category" required>
                 <%
                     for (Category category : categories) {
