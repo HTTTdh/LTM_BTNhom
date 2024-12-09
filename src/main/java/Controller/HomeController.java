@@ -13,11 +13,11 @@ import java.io.IOException;
 public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        if ( session == null || session.getAttribute("user") == null) {
-            resp.sendRedirect("login");
-        }else {
+//        HttpSession session = req.getSession();
+//        if ( session == null || session.getAttribute("user") == null) {
+//            resp.sendRedirect("login");
+//        }else {
+//        }
             req.getRequestDispatcher("article?action=home").forward(req, resp);
-        }
     }
 }

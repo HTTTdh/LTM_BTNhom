@@ -53,13 +53,19 @@ public class ArticleController extends HttpServlet {
     }
 
     private void showAddPage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String errorMessage = (String) req.getAttribute("errorMessage");
-        if (errorMessage != null) {
-            req.setAttribute("errorMessage", errorMessage);
+        HttpSession session = req.getSession();
+        if ( session == null || session.getAttribute("user") == null) {
+            resp.sendRedirect("login");
+        }else {
+//            req.getRequestDispatcher("article?action=home").forward(req, resp);
+            String errorMessage = (String) req.getAttribute("errorMessage");
+            if (errorMessage != null) {
+                req.setAttribute("errorMessage", errorMessage);
+            }
+            ArrayList<Category> categories = bo.getAllCategories();
+            req.setAttribute("categories", categories);
+            req.getRequestDispatcher("/templates/AddArticle.jsp").forward(req, resp);
         }
-        ArrayList<Category> categories = bo.getAllCategories();
-        req.setAttribute("categories", categories);
-        req.getRequestDispatcher("/templates/AddArticle.jsp").forward(req, resp);
     }
 
     private void showHome(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

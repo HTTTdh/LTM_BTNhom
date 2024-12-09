@@ -57,22 +57,36 @@
             <input type="search" placeholder="Tìm kiếm thông tin...">
             <button> Submit </button>
         </div>
-        <div>
-            <% UserShow user = (UserShow) session.getAttribute("user"); %>
-            <h4>
-                Xin chào,
-                <%=user.getFullName() %>
-            </h4>
-        </div>
-        <div>
-            <button>
-                <i class="fas fa-sign-in-alt"></i> Đăng xuất
-            </button>
-        </div>
-        <div>
-            <i class="fas fa-bell"></i>
-        </div>
-    </div>
+
+            <%
+                if (session.getAttribute("user") != null) {
+                    UserShow user = (UserShow) session.getAttribute("user");
+            %>
+                    <div>
+                        <h4>
+                            Xin chào,
+                            <%=user.getFullName() %>
+                        </h4>
+                    </div>
+                    <div>
+                        <button>
+                            <i class="fas fa-sign-in-alt"></i> Đăng xuất
+                        </button>
+                    </div>
+        <%
+            }else{
+        %>
+                    <div>
+                        <button onclick="navigateToLogin()">
+                            <i class="fas fa-sign-in-alt"></i> Đăng nhập
+                        </button>
+                    </div>
+        <%
+            }
+        %>
+
+        <div style="width: 100%">
+
     <nav style="padding-top: 25px; padding-bottom: 15px;">
         <ul>
             <li><a href="/home"><h3>Trang chủ</h3></a></li>
@@ -93,6 +107,7 @@
             </li>
         </ul>
     </nav>
+        </div>
 </header>
 
 <main>
@@ -202,6 +217,10 @@
 <!-- biểu tượng mạng xã hội -->
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 <script>
+    navigateToLogin = () => {
+        window.location.href = "/login";
+    }
+
     const currentDate = new Date();
     document.getElementById('current-date').textContent = currentDate.toLocaleDateString('vi-VN', {
         weekday: 'long',

@@ -46,8 +46,12 @@
             <input type="search" placeholder="Tìm kiếm thông tin...">
             <button> Submit </button>
         </div>
+
+            <%
+                if (session.getAttribute("user") != null) {
+                    UserShow user = (UserShow) session.getAttribute("user");
+            %>
         <div>
-            <% UserShow user = (UserShow) session.getAttribute("user"); %>
             <h4>
                 Xin chào,
                 <%=user.getFullName() %>
@@ -58,30 +62,41 @@
                 <i class="fas fa-sign-in-alt"></i> Đăng xuất
             </button>
         </div>
+            <%
+            }else{
+        %>
         <div>
-            <i class="fas fa-bell"></i>
+            <button onclick="navigateToLogin()">
+                <i class="fas fa-sign-in-alt"></i> Đăng nhập
+            </button>
         </div>
-    </div>
-    <nav style="padding-top: 25px; padding-bottom: 15px;">
-        <ul>
-            <li><a href="/home"><h3>Trang chủ</h3></a></li>
             <%
-                for (Category category : categories) {
-            %>
-            <li><a href="#"><h3><%= category.getCategory_name() %></h3></a>
-            </li>
-            <%
-                }
-            %>
-            <li><a href="/article?action=add"><h3>Đăng bài</h3></a>
-            <li><a href="#">
-                <div class="hamburger-menu"></div>
-                <div class="hamburger-menu"></div>
-                <div class="hamburger-menu"></div>
-            </a>
-            </li>
-        </ul>
-    </nav>
+            }
+        %>
+
+        <div style="width: 100%">
+
+            <nav style="padding-top: 25px; padding-bottom: 15px;">
+                <ul>
+                    <li><a href="/home"><h3>Trang chủ</h3></a></li>
+                    <%
+                        for (Category category : categories) {
+                    %>
+                    <li><a href="#"><h3><%= category.getCategory_name() %></h3></a>
+                    </li>
+                    <%
+                        }
+                    %>
+                    <li><a href="/article?action=add"><h3>Đăng bài</h3></a>
+                    <li><a href="#">
+                        <div class="hamburger-menu"></div>
+                        <div class="hamburger-menu"></div>
+                        <div class="hamburger-menu"></div>
+                    </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
 </header>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
