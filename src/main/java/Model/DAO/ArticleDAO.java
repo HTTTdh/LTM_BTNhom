@@ -1,7 +1,6 @@
 package Model.DAO;
 
 import Model.Bean.Article;
-import Model.Bean.ArticleShow;
 import Model.DBHelper;
 
 import java.sql.*;
@@ -161,5 +160,32 @@ public class ArticleDAO {
             return null;
         }
     }
-    
+
+    public Article getArticleById(int id) {
+        try {
+            Connection con = DBHelper.getConnection();
+            String query = "SELECT * FROM Article WHERE id = ?";
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setInt(1, id);
+
+            ResultSet rs = statement.executeQuery();
+            if (!rs.next()) {
+                return null;
+            }
+            Article article = new Article(
+                    rs.getInt(1),
+                    rs.getString(2),
+                    rs.getString(3),
+                    rs.getString(4),
+                    rs.getDate(5),
+                    rs.getInt(6)
+            );
+            rs.close();
+            statement.close();
+            return article;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

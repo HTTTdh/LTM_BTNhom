@@ -51,6 +51,16 @@ public class ArticleBO {
         return articleShow;
     }
 
+    public ArticleShow getArticleById(int id)
+    {
+        Article article = dao.getArticleById(id);
+        if (article == null) {
+            System.out.println("Article not found");
+            return null;
+        }
+        return mapToArticleResponseWithImage(article);
+    }
+
     private String extractFirstImage(String content) { // tìm tất cả các thẻ hình ảnh <img> trong nội dung bài viết.
         // Lấy ra URL của hình ảnh đầu tiên từ kết quả tìm kiếm.
         Pattern pattern = Pattern.compile("<img[^>]+src=\"([^\"]+)\"");

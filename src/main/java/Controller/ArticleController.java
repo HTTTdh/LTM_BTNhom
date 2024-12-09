@@ -24,7 +24,6 @@ public class ArticleController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)  {
         String action = req.getParameter("action");
-        System.out.println(action);
         try{
             switch (action) {
                 case "home":
@@ -35,6 +34,9 @@ public class ArticleController extends HttpServlet {
                     return;
                 case "search":
                     showSearchResult(req, resp);
+                    return;
+                case "detail":
+                    showArticleDetail(req, resp);
                     return;
                     case "edit":
 
@@ -47,13 +49,19 @@ public class ArticleController extends HttpServlet {
     }
 
     private void showAddPage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String errorMessage = (String) req.getAttribute("errorMessage");
-        if (errorMessage != null) {
-            req.setAttribute("errorMessage", errorMessage);
+        HttpSession session = req.getSession();
+        if ( session == null || session.getAttribute("user") == null) {
+            resp.sendRedirect("login");
+        }else {
+//            req.getRequestDispatcher("article?action=home").forward(req, resp);
+            String errorMessage = (String) req.getAttribute("errorMessage");
+            if (errorMessage != null) {
+                req.setAttribute("errorMessage", errorMessage);
+            }
+            ArrayList<Category> categories = bo.getAllCategories();
+            req.setAttribute("categories", categories);
+            req.getRequestDispatcher("/templates/AddArticle.jsp").forward(req, resp);
         }
-        ArrayList<Category> categories = bo.getAllCategories();
-        req.setAttribute("categories", categories);
-        req.getRequestDispatcher("templates/AddArticle.jsp").forward(req, resp);
     }
 
     private void showHome(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -69,9 +77,18 @@ public class ArticleController extends HttpServlet {
         ArrayList<Category> categories = bo.getAllCategories();
         req.setAttribute("categories", categories);
 
-        req.getRequestDispatcher("templates/PageHome.jsp").forward(req, resp);
+        req.getRequestDispatcher("/templates/PageHome.jsp").forward(req, resp);
     }
+    private void showArticleDetail(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String id = req.getParameter("id");
+        int article_id = Integer.parseInt(id);
+        ArticleShow article = bo.getArticleById(article_id);
+        req.setAttribute("article", article);
 
+        ArrayList<Category> categories = bo.getAllCategories();
+        req.setAttribute("categories", categories);
+        req.getRequestDispatcher("/templates/ArticleDetail.jsp").forward(req, resp);
+    }
     private void showSearchResult(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String keyword = req.getParameter("keyword");
         String pageParam = req.getParameter("page");
@@ -79,7 +96,7 @@ public class ArticleController extends HttpServlet {
         ArrayList<ArticleShow> articles = bo.searchArticles(keyword, page);
 
         req.setAttribute("articles", articles);
-        req.getRequestDispatcher("templates/searchResults.jsp").forward(req, resp);
+        req.getRequestDispatcher("/searchResults.jsp").forward(req, resp);
     }
 
     private void showEdit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -107,7 +124,6 @@ public class ArticleController extends HttpServlet {
                     return;
                     case "delete":
                     handleDelete(req, resp);
-                    return;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -165,7 +181,6 @@ public class ArticleController extends HttpServlet {
             req.setAttribute("errorMessage", "An error occurred while updating the article.");
         }
     }
-
 
 
 }
