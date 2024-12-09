@@ -1,0 +1,126 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    padding: 20px;
+    gap: 20px; /* Khoảng cách giữa form và các bài báo */
+    justify-content: center;
+}
+
+.form-container {
+    margin-top: 50px;
+    background: white;
+    padding: 40px;
+    max-width: 1200px;
+    border-radius: 15px;
+    flex: 2; /* Form sẽ chiếm 2 phần */
+}
+
+.medical-articles h2 {
+    margin-top: 0;
+    color: #2d6fb6; /* Màu xanh dương cho tiêu đề */
+}
+
+.medical-article img {
+    max-width: 100px;
+    margin-right: 10px;
+}
+
+.article-content h3 {
+    margin: 0;
+    font-size: 1.1em;
+}
+
+.article-content p {
+    margin: 5px 0 0;
+    font-size: 0.9em;
+    color: #555;
+}
+h1 {
+    text-align: center;
+    color: #2d6fb6; /* Màu xanh dương cho tiêu đề */
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+label[for="title"],
+label[for="category"] {
+    display: block;
+    color: #2d6fb6; /* Màu xanh dương cho tiêu đề */
+}
+
+input[type="text"],
+input[type="date"],
+textarea,
+input[type="file"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 3px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button[type="submit"],
+button[id="imagePickerButton"]
+{
+    background-color: #FF5733;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover,
+button[id="imagePickerButton"]:hover {
+    background-color: #e14d2a;
+}
+
+#contentContainer {
+    position: relative;
+}
+
+#imagePickerButton {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.content-editable {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    min-height: 500px; /* Tăng chiều cao tối thiểu của trường content */
+    overflow-y: auto;
+}
+
+select[id="category"] {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
+    background-color: #fff;
+}

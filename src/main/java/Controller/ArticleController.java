@@ -32,10 +32,24 @@ public class ArticleController extends HttpServlet {
                 case "search":
                     showSearchResult(req, resp);
                     return;
+                case "detail":
+                    showArticleDetail(req, resp);
+                    return;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void showArticleDetail(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String id = req.getParameter("id");
+        int article_id = Integer.parseInt(id);
+        ArticleShow article = bo.getArticleById(article_id);
+        req.setAttribute("article", article);
+
+        ArrayList<Category> categories = bo.getAllCategories();
+        req.setAttribute("categories", categories);
+        req.getRequestDispatcher("/templates/ArticleDetail.jsp").forward(req, resp);
     }
 
     private void showAddPage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

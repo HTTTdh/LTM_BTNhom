@@ -8,188 +8,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Báo Điện Tử</title>
-    <link rel="stylesheet" href="../static/css/header_footer.css">
-    <link rel="stylesheet" href="../static/css/PageHomeStyle.css">
+    <link rel="stylesheet" href="../static/css/header_footer_style.css">
+    <link rel="stylesheet" href="../static/css/main_page.css">
     <title>HomePage</title>
-    <style>
-        .weather-info {
-            display: flex;
-            align-items: center;
-            font-size: 16px;
-            color: #333;
-            margin-left: 10px; /* Khoảng cách giữa địa chỉ và biểu tượng mây */
-        }
-        .weather-info i {
-            margin-right: 5px; /* Khoảng cách giữa biểu tượng mây và nhiệt độ */
-        }
-
-        /* Định dạng cho bài báo lớn */
-        .main-article {
-            max-width: 1300px;
-            max-height: 700px;
-            overflow: hidden;
-            margin: 20px;
-            padding: 20px;
-            background-color: #f9f9f9;
-
-            /* Sử dụng Flexbox để sắp xếp nội dung theo hàng ngang */
-            display: flex;
-            flex-direction: row;
-            gap: 20px; /* Khoảng cách giữa ảnh và nội dung */
-        }
-
-        .main-article h1 {
-            font-size: 28px;
-            color: #333;
-        }
-
-        .main-article p {
-            font-size: 16px;
-            color: #666;
-        }
-
-        .large-article-image {
-            max-width: 800px;
-            height: auto;
-            margin-top: 20px;
-        }
-
-        /* Tạo một container để gom nhóm tiêu đề và đoạn văn */
-        .article-content {
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Định dạng cho 3 bài baos nhỏ */
-        .small-articles {
-            gap: 10px;
-            display: flex;
-            justify-content: space-between;
-            margin: 20px;
-        }
-
-        .small-article {
-            width: 30%;
-            padding: 15px;
-            background-color: #f0f0f0;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-
-        .small-article img {
-            width: 100%;
-            height: auto;
-        }
-
-        .small-article h3 {
-            font-size: 18px;
-            color: #333;
-        }
-
-        .small-article p {
-            font-size: 14px;
-            color: #666;
-        }
-
-        /* Đảm bảo bài viết nhỏ sẽ xếp chồng lên nhau khi kích thước màn hình nhỏ */
-        @media (max-width: 768px) {
-            .small-articles {
-                flex-direction: column;
-            }
-
-            .small-article {
-                width: 100%;
-            }
-        }
-
-        html, body {
-            height: 100%;
-            margin: 0;
-        }
-
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100%;
-        }
-
-        /* Phần main sẽ chiếm hết không gian còn lại */
-        main {
-            flex-grow: 1;
-        }
-
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding-top: 25px;
-            padding-bottom: 20px;
-            width: 100%;
-            height: 80px;
-            bottom: 0;
-        }
-
-        .logo {
-            border: 5px solid #FF5733;
-            border-radius: 15px;
-            width: 65px;
-            height: auto; /* Giữ tỷ lệ khung hình gốc */
-
-        }
-
-        /* Định dạng cho các bài viết phía dưới */
-        .bottom-articles {
-            gap: 20px;
-            display: flex;
-            justify-content: space-between;
-            margin: 20px;
-        }
-
-        .left-articles {
-            width: 100%;
-        }
-
-        .right-articles {
-            width: 100%;
-        }
-
-        /* Định dạng cho bài viết bên trái */
-        .left-article {
-            background-color: #f0f0f0;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .left-article h3 {
-            font-size: 20px;
-            color: #333;
-        }
-
-        .left-article p {
-            font-size: 14px;
-            color: #666;
-        }
-
-        /* Định dạng cho bài viết bên phải */
-        .right-article {
-            background-color: #f0f0f0;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .right-article h3 {
-            font-size: 24px;
-            color: #333;
-        }
-
-        .right-article p {
-            font-size: 16px;
-            color: #666;
-        }
-
-    </style>
 </head>
 <script>
 
@@ -227,6 +48,10 @@
                 <option value="HaiPhong">Hải Phòng</option>
                 <option value="CanTho">Cần Thơ</option>
             </select>
+        </div>
+        <div class="weather-info">
+            <i class="fas fa-cloud"></i> <!-- Biểu tượng mây -->
+            <span>21°C</span> <!-- Nhiệt độ -->
         </div>
         <div>
             <input type="search" placeholder="Tìm kiếm thông tin...">
@@ -271,27 +96,38 @@
 </header>
 
 <main>
-    <div class="main-article">
-        <img src="<%= mainArticle.getFirst_image() %>" alt="Hình ảnh bài báo lớn" class="large-article-image">
+        <div class="main-article">
+            <a href="article?action=detail&id=<%=mainArticle.getId()%>">
+                <div class="main-article-content">
 
-        <div class="article-content">
-            <h1><a href="#"> <%= mainArticle.getTitle() %></a> </h1>
-            <p><%= mainLine %></p>
+                    <img src="<%= mainArticle.getFirst_image() %>" alt="Hình ảnh bài báo lớn" class="large-article-image">
+
+                    <div class="article-content">
+                        <h1> <%= mainArticle.getTitle() %> </h1>
+                        <p><%= mainLine %></p>
+                    </div>
+                </div>
+            </a>
         </div>
-    </div>
 
-    <div class="small-articles">
         <h2>Bài viết liên quan</h2>
+    <div class="small-articles">
             <% for (int i = 0; i < miniArticles.size(); i++) {
                 ArticleShow article = miniArticles.get(i);
                 String line = miniLines.get(i);
             %>
-        <div class="small-article">
-            <img src="<%= article.getFirst_image() %>" alt="Hình ảnh bài viết <%= i %>" class="small-article-image">
-            <h3><a href="#"><%= article.getTitle() %></a></h3>
-            <p><%= line %></p>
-        </div>
+            <div class="small-article">
+        <a href="article?action=detail&id=<%=article.getId()%>">
+            <div>
+
+                <img src="<%= article.getFirst_image() %>" alt="Hình ảnh bài viết <%= i %>" class="small-article-image">
+                <h3><%= article.getTitle() %></h3>
+                <p><%= line %></p>
+            </div>
+        </a>
+            </div>
             <% } %>
+
     </div>
 
     <!-- Chia trang làm hai phần: Bên trái 4 bài báo, bên phải 2 bài báo lớn hơn -->
@@ -301,28 +137,32 @@
                 ArticleShow article = normalArticles.get(i);
                 String line = normalLines.get(i);
             %>
+            <a href="article?action=detail&id=<%=article.getId()%>">
                 <div class="left-article">
-                    <h3><a href="#"> <%= article.getTitle() %> </a></h3>
+                    <h3> <%= article.getTitle() %></h3>
                     <img src="<%= article.getFirst_image() %>" style="max-width: 400px" alt="Hình ảnh bài viết 1" class="left-article-image">
                     <p> <%=line%> </p>
                 </div>
+            </a>
             <% } %>
         </div>
 
         <div class="right-articles">
-            <div class="right-article">
                 <%
                     for (int i = 0; i < sideMainArticles.size(); i++) {
                         ArticleShow article = sideMainArticles.get(i);
                         String line = sideMainLines.get(i);
                 %>
-                    <h3><%= article.getTitle() %></h3>
-                    <img src="<%= article.getFirst_image() %>" style="max-width: 480px" alt="Hình ảnh bài viết lớn 1" class="right-article-image">
-                    <p><%= line %></p>
+                    <a href="article?action=detail&id=<%=article.getId()%>">
+                        <div class="right-article">
+                                <h3><%= article.getTitle() %></h3>
+                                <img src="<%= article.getFirst_image() %>" style="max-width: 480px" alt="Hình ảnh bài viết lớn 1" class="right-article-image">
+                                <p><%= line %></p>
+                        </div>
+                    </a>
                 <%
                  }
                 %>
-            </div>
         </div>
     </div>
 </main>
