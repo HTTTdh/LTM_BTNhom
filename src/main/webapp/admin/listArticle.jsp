@@ -8,7 +8,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="./admin/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
 </head>
@@ -35,9 +35,9 @@
   <aside class="sidebar">
     <nav>
       <ul>
-        <li><a href="admin?action=home">Trang chủ</a> </li>
-        <li><a href="admin?action=listArticle"><i class="fas fa-newspaper"></i> Danh sách bài báo</a></li>
-        <li><a href="admin?action=listUser"><i class="fas fa-users"></i> Danh sách người dùng</a></li>
+        <li><a href="?action=home">Trang chủ</a> </li>
+        <li><a href="?action=listArticle"><i class="fas fa-newspaper"></i> Danh sách bài báo</a></li>
+        <li><a href="?action=listUser"><i class="fas fa-users"></i> Danh sách người dùng</a></li>
         <li><a href="#settings"><i class="fas fa-cog"></i> Cài đặt </a></li>
         <li><a href="#logout"><i class="fas fa-sign-out-alt"></i> Đăng xuất </a></li>
       </ul>
@@ -77,9 +77,9 @@
         <td><%=list.get(i).getContent()%></td>
         <td><%=list.get(i).getCategory()%></td>
         <td><%=list.get(i).getCreated_at()%></td>
-        <td><%=list.get(i).getAuthor()%></td>
+        <td><%=list.get(i).getAuthor().getFullName()%></td>
         <td>
-          <button class="edit-btn"><a href="admin?action=editArticle&idArticles=<%=list.get(i).getId()%>">Edit</a></button>
+          <button class="edit-btn"><a href="?action=editArticle&idArticles=<%=list.get(i).getId()%>">Edit</a></button>
 
         </td>
         <td><button class="delete-btn" onclick="confirmDelete(<%=list.get(i).getId()%>)">Delete</button></td>

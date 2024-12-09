@@ -8,7 +8,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sửa thông tin bài báo</title>
-  <link rel="stylesheet" href="edit.css">
+  <link rel="stylesheet" href="./admin/edit.css">
 </head>
 <body>
 <div class="admin-dashboard">
@@ -23,9 +23,9 @@
   <aside class="sidebar">
     <nav>
       <ul>
-        <li><a href="admin?action=home">Trang chủ</a></li>
-        <li><a href="admin?action=listArticle">Danh sách bài báo</a></li>
-        <li><a href="admin?action=listUser">Danh sách người dùng</a></li>
+        <li><a href="?action=home">Trang chủ</a></li>
+        <li><a href="?action=listArticle">Danh sách bài báo</a></li>
+        <li><a href="?action=listUser">Danh sách người dùng</a></li>
         <li><a href="#settings">Cài đặt</a></li>
         <li><a href="#logout">Đăng xuất</a></li>
       </ul>
@@ -39,7 +39,7 @@
      ArticleShow article = (ArticleShow) request.getAttribute("articles");
     %>
 
-    <form action="admin?action=editArticle" method="post">
+    <form action="?action=editArticle" method="post">
       <label for="id">Id:</label>
       <input type="text" id="id" name="id" value="<%= article.getId() %>" readonly>
 
@@ -56,7 +56,7 @@
       <input type="text" id="created_at" name="created_at" value="<%= article.getCreated_at() %>" disabled>
 
       <label for="author">Author:</label>
-      <input type="text" id="author" name="author" value="<%= article.getAuthor() %>" disabled>
+      <input type="text" id="author" name="author" value="<%= article.getAuthor().getFullName() %>" disabled>
       <button type="submit" class="save-btn">Save Changes</button>
     </form>
   </main>

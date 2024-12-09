@@ -1,9 +1,11 @@
 package Controller;
 
+import Model.BO.AdminBO;
 import Model.BO.ArticleBO;
 import Model.Bean.Article;
 import Model.Bean.ArticleShow;
 import Model.Bean.Category;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,10 +19,12 @@ import java.util.ArrayList;
 @WebServlet("/article")
 public class ArticleController extends HttpServlet {
     public ArticleBO bo = new ArticleBO();
+    public AdminBO adminBO = new AdminBO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)  {
         String action = req.getParameter("action");
+        System.out.println(action);
         try{
             switch (action) {
                 case "home":
@@ -32,6 +36,10 @@ public class ArticleController extends HttpServlet {
                 case "search":
                     showSearchResult(req, resp);
                     return;
+                    case "edit":
+
+                        showEdit(req,resp);
+                        return;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -45,7 +53,7 @@ public class ArticleController extends HttpServlet {
         }
         ArrayList<Category> categories = bo.getAllCategories();
         req.setAttribute("categories", categories);
-        req.getRequestDispatcher("/templates/AddArticle.jsp").forward(req, resp);
+        req.getRequestDispatcher("templates/AddArticle.jsp").forward(req, resp);
     }
 
     private void showHome(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -61,7 +69,7 @@ public class ArticleController extends HttpServlet {
         ArrayList<Category> categories = bo.getAllCategories();
         req.setAttribute("categories", categories);
 
-        req.getRequestDispatcher("/templates/PageHome.jsp").forward(req, resp);
+        req.getRequestDispatcher("templates/PageHome.jsp").forward(req, resp);
     }
 
     private void showSearchResult(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -71,9 +79,21 @@ public class ArticleController extends HttpServlet {
         ArrayList<ArticleShow> articles = bo.searchArticles(keyword, page);
 
         req.setAttribute("articles", articles);
-        req.getRequestDispatcher("/searchResults.jsp").forward(req, resp);
+        req.getRequestDispatcher("templates/searchResults.jsp").forward(req, resp);
     }
 
+    private void showEdit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String id = req.getParameter("id");
+        int article_id = Integer.parseInt(id);
+        System.out.println(article_id);
+        ArticleShow articleShow = adminBO.getArticles(article_id);
+        System.out.println(articleShow.getTitle());
+        ArrayList<Category> categories = bo.getAllCategories();
+        req.setAttribute("categories", categories);
+        req.setAttribute("articleShow", articleShow);
+        req.getRequestDispatcher("templates/EditArticle.jsp").forward(req, resp);
+
+    }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
@@ -87,6 +107,7 @@ public class ArticleController extends HttpServlet {
                     return;
                     case "delete":
                     handleDelete(req, resp);
+                    return;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -126,8 +147,25 @@ public class ArticleController extends HttpServlet {
 
     }
 
-    private void handleEdit(HttpServletRequest req, HttpServletResponse resp) {
+    private void handleEdit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            int id = Integer.parseInt(req.getParameter("id"));
+            String title = req.getParameter("title");
+            String content = req.getParameter("content");
+            String category = req.getParameter("category");
+
+            boolean check = adminBO.updateArticle(title, content, category, id);
+
+            if (check) {
+                resp.sendRedirect("article?action=home");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            req.setAttribute("errorMessage", "An error occurred while updating the article.");
+        }
     }
+
 
 
 }

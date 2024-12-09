@@ -8,10 +8,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Báo Điện Tử</title>
-    <link rel="stylesheet" href="../static/css/header_footer.css">
-    <link rel="stylesheet" href="../static/css/PageHomeStyle.css">
+    <link rel="stylesheet" href="static/css/header_footer.css">
+    <link rel="stylesheet" href="static/css/PageHomeStyle.css">
     <title>HomePage</title>
     <style>
+        .edit-btn {
+            background-color: #28a745;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .edit-btn:hover {
+            background-color: #218838;
+        }
         .weather-info {
             display: flex;
             align-items: center;
@@ -195,6 +208,8 @@
 
 </script>
 <%
+
+try{
     ArrayList<ArticleShow> top10Articles = (ArrayList<ArticleShow>) request.getAttribute("articles");
     ArrayList<Category> categories = (ArrayList<Category>) request.getAttribute("categories");
     ArrayList<String> introductionLines = (ArrayList<String>) request.getAttribute("introductionLines");
@@ -205,11 +220,12 @@
     ArrayList<ArticleShow> sideMainArticles = new ArrayList<>(top10Articles.subList(1, 3));
     ArrayList<String> sideMainLines = new ArrayList<>(introductionLines.subList(1, 3));
 
-    ArrayList<ArticleShow> miniArticles = new ArrayList<>(top10Articles.subList(3, 6));
-    ArrayList<String> miniLines = new ArrayList<>(introductionLines.subList(3, 6));
+        ArrayList<ArticleShow> miniArticles = new ArrayList<>(top10Articles.subList(3, 6));
+        ArrayList<String> miniLines= new ArrayList<>(introductionLines.subList(3, 6));
 
     ArrayList<ArticleShow> normalArticles = new ArrayList<>(top10Articles.subList(6, 10));
     ArrayList<String> normalLines = new ArrayList<>(introductionLines.subList(6, 10));
+
 %>
 <body>
 <header class="header">
@@ -250,16 +266,17 @@
     </div>
     <nav style="padding-top: 25px; padding-bottom: 15px;">
         <ul>
-            <li><a href="/home"><h3>Trang chủ</h3></a></li>
+            <li><a href="home"><h3>Trang chủ</h3></a></li>
             <%
                 for (Category category : categories) {
             %>
             <li><a href="#"><h3><%= category.getCategory_name() %></h3></a>
             </li>
             <%
+
                 }
             %>
-            <li><a href="/article?action=add"><h3>Đăng bài</h3></a>
+            <li><a href="article?action=add"><h3>Đăng bài</h3></a>
             <li><a href="#">
                 <div class="hamburger-menu"></div>
                 <div class="hamburger-menu"></div>
@@ -277,6 +294,8 @@
         <div class="article-content">
             <h1><a href="#"> <%= mainArticle.getTitle() %></a> </h1>
             <p><%= mainLine %></p>
+            <button class="edit-btn"><a href="article?action=edit&id=<%=mainArticle.getId()%>">Edit</a></button>
+
         </div>
     </div>
 
@@ -290,6 +309,8 @@
             <img src="<%= article.getFirst_image() %>" alt="Hình ảnh bài viết <%= i %>" class="small-article-image">
             <h3><a href="#"><%= article.getTitle() %></a></h3>
             <p><%= line %></p>
+            <button class="edit-btn"><a href="article?action=edit&id=<%=article.getId()%>">Edit</a></button>
+
         </div>
             <% } %>
     </div>
@@ -305,6 +326,8 @@
                     <h3><a href="#"> <%= article.getTitle() %> </a></h3>
                     <img src="<%= article.getFirst_image() %>" style="max-width: 400px" alt="Hình ảnh bài viết 1" class="left-article-image">
                     <p> <%=line%> </p>
+                    <button class="edit-btn"><a href="article?action=edit&id=<%=article.getId()%>">Edit</a></button>
+
                 </div>
             <% } %>
         </div>
@@ -319,8 +342,14 @@
                     <h3><%= article.getTitle() %></h3>
                     <img src="<%= article.getFirst_image() %>" style="max-width: 480px" alt="Hình ảnh bài viết lớn 1" class="right-article-image">
                     <p><%= line %></p>
+                <button class="edit-btn"><a href="article?action=edit&id=<%=article.getId()%>">Edit</a></button>
+
                 <%
+
                  }
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                 %>
             </div>
         </div>

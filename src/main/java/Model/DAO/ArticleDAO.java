@@ -1,6 +1,7 @@
 package Model.DAO;
 
 import Model.Bean.Article;
+import Model.Bean.ArticleShow;
 import Model.DBHelper;
 
 import java.sql.*;
@@ -160,4 +161,5 @@ public class ArticleDAO {
             return null;
         }
     }
+    
 }

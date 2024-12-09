@@ -12,8 +12,8 @@
     <title>New Article</title>
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
     <script src="../static/scripts/post.js"></script>
-    <link rel="stylesheet" href="../static/css/header_footer.css">
-    <link rel="stylesheet" href="../static/css/PageHomeStyle.css">
+    <link rel="stylesheet" href="static/css/header_footer.css">
+    <link rel="stylesheet" href="static/css/PageHomeStyle.css">
 </head>
 <style>
   body {
