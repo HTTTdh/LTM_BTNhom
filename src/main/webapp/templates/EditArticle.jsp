@@ -1,161 +1,16 @@
 <%@ page import="Model.Bean.Category" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="Model.Bean.ArticleShow" %><%--
-  Created by IntelliJ IDEA.
-  User: chauthi
-  Date: 06/12/2024
-  Time: 23:34
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="Model.Bean.ArticleShow" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>New Article</title>
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
-    <script src="../static/scripts/post.js"></script>
-    <link rel="stylesheet" href="static/css/header_footer.css">
-    <link rel="stylesheet" href="static/css/PageHomeStyle.css">
+    <script src="./static/scripts/post.js"></script>
+    <link rel="stylesheet" href="./static/css/header_footer_style.css">
+    <link rel="stylesheet" href="./static/css/main_page.css">
+    <link rel="stylesheet" href="./static/css/add_article.css">
 </head>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-    }
-
-    .container {
-        display: flex;
-        max-width: 1200px;
-        margin: 0px 80px;
-        padding: 20px;
-        gap: 20px; /* Khoảng cách giữa form và các bài báo */
-        align-items: flex-start; /* Căn chỉnh các mục con theo chiều dọc */
-    }
-
-    .form-container {
-        flex: 2; /* Form sẽ chiếm 2 phần */
-    }
-
-    .medical-articles {
-        flex: 1; /* Các bài báo sẽ chiếm 1 phần */
-        margin-top: 100px; /* Đẩy phần bài báo xuống để ngang hàng với nút Chèn hình ảnh */
-    }
-
-    .medical-articles h2 {
-        margin-top: 0;
-        color: #2d6fb6; /* Màu xanh dương cho tiêu đề */
-    }
-
-    .medical-article {
-        display: flex;
-        align-items: flex-start;
-        margin-bottom: 20px;
-    }
-
-    .medical-article img {
-        max-width: 100px;
-        margin-right: 10px;
-    }
-
-    .article-content {
-        max-width: calc(100% - 110px);
-    }
-
-    .article-content h3 {
-        margin: 0;
-        font-size: 1.1em;
-    }
-
-    .article-content p {
-        margin: 5px 0 0;
-        font-size: 0.9em;
-        color: #555;
-    }
-    h1 {
-        text-align: center;
-        color: #2d6fb6; /* Màu xanh dương cho tiêu đề */
-    }
-
-    form {
-        margin-bottom: 20px;
-    }
-
-    .form-group {
-        margin-bottom: 10px;
-    }
-
-    label {
-        display: block;
-        color: #2d6fb6; /* Màu xanh dương cho tiêu đề */
-    }
-
-    input[type="text"],
-    input[type="date"],
-    textarea,
-    input[type="file"] {
-        width: 100%;
-        padding: 8px;
-        margin-top: 3px;
-        margin-bottom: 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
-    }
-
-    button[type="submit"],
-    button[id="imagePickerButton"]
-    {
-        background-color: #4CAF50;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-
-    button[type="submit"]:hover,
-    button[id="imagePickerButton"]:hover {
-        background-color: #45a049;
-    }
-
-    #contentContainer {
-        position: relative;
-    }
-
-    #imagePickerButton {
-        display: block;
-        margin-bottom: 5px;
-    }
-
-    .content-editable {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
-        min-height: 500px; /* Tăng chiều cao tối thiểu của trường content */
-        overflow-y: auto;
-    }
-
-    select[id="select-category"] {
-        width: 100%;
-        padding: 10px 15px;
-        font-size: 16px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        background-color: #f9f9f9;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        outline: none;
-        transition: border-color 0.3s, box-shadow 0.3s;
-    }
-
-    select:focus {
-        border-color: #007bff;
-        box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
-        background-color: #fff;
-    }
-
-</style>
 <%
     String errorMessage = (String) request.getAttribute("errorMessage");
     ArrayList<Category> categories = (ArrayList<Category>) request.getAttribute("categories");

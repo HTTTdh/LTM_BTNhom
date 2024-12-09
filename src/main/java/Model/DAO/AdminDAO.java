@@ -136,21 +136,30 @@ public class AdminDAO {
         boolean check = false;
         Connection connection = null;
         PreparedStatement ps = null;
-        try{
+        try {
+            // Chuyển category từ chuỗi thành enum
+            Category categoryEnum = Category.valueOf(category.toUpperCase()); // Nếu category là chuỗi "CURRENT_EVENTS"
+
+            // Kết nối cơ sở dữ liệu
             connection = DBHelper.getConnection();
             String sql = "update article set title=?, content=?, category=? where id=?";
             ps = connection.prepareStatement(sql);
             ps.setString(1, title);
             ps.setString(2, content);
-            ps.setString(3, category);
+            ps.setString(3, categoryEnum.name());  // Lưu tên enum vào cơ sở dữ liệu
             ps.setInt(4, id);
+
+            // Thực thi truy vấn
             int row = ps.executeUpdate();
-            if (row > 0) {check=true;}
-        }catch(Exception e){
+            if (row > 0) {
+                check = true;
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return check;
     }
+
 
     public boolean deleteUser(int id) {
         boolean check = false;

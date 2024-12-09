@@ -102,13 +102,13 @@ public class ArticleController extends HttpServlet {
     private void showEdit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
         int article_id = Integer.parseInt(id);
-        System.out.println(article_id);
+//        System.out.println(article_id);
         ArticleShow articleShow = adminBO.getArticles(article_id);
-        System.out.println(articleShow.getTitle());
+//        System.out.println(articleShow.getTitle());
         ArrayList<Category> categories = bo.getAllCategories();
         req.setAttribute("categories", categories);
         req.setAttribute("articleShow", articleShow);
-        req.getRequestDispatcher("templates/EditArticle.jsp").forward(req, resp);
+        req.getRequestDispatcher("templates/EditArticles.jsp").forward(req, resp);
 
     }
     @Override
@@ -165,6 +165,7 @@ public class ArticleController extends HttpServlet {
 
     private void handleEdit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
+            System.out.println(req.getParameter("id"));
             int id = Integer.parseInt(req.getParameter("id"));
             String title = req.getParameter("title");
             String content = req.getParameter("content");

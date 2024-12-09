@@ -15,9 +15,9 @@
 %>
 <head>
     <title><%= article.getTitle() %></title>
-    <link rel="stylesheet" href="../static/css/header_footer_style.css">
-    <link rel="stylesheet" href="../static/css/main_page.css">
-    <link rel="stylesheet" href="../static/css/article_detail.css">
+    <link rel="stylesheet" href="./static/css/header_footer_style.css">
+    <link rel="stylesheet" href="./static/css/main_page.css">
+    <link rel="stylesheet" href="./static/css/article_detail.css">
 </head>
 <%
     ArrayList<Category> categories = (ArrayList<Category>) request.getAttribute("categories");
@@ -25,7 +25,7 @@
 <body>
 <header class="header">
     <div class="header-content">
-        <img src="../static/resources/logo.png" alt="Logo" class="logo">
+        <img src="./static/resources/logo.png" alt="Logo" class="logo">
         <div class="text">
             <span id="current-date"></span>
         </div>
@@ -79,7 +79,7 @@
 
             <nav style="padding-top: 25px; padding-bottom: 15px;">
                 <ul>
-                    <li><a href="/home"><h3>Trang chủ</h3></a></li>
+                    <li><a href="article?action=home"><h3>Trang chủ</h3></a></li>
                     <%
                         for (Category category : categories) {
                     %>
@@ -88,7 +88,7 @@
                     <%
                         }
                     %>
-                    <li><a href="/article?action=add"><h3>Đăng bài</h3></a>
+                    <li><a href="article?action=add"><h3>Đăng bài</h3></a>
                     <li><a href="#">
                         <div class="hamburger-menu"></div>
                         <div class="hamburger-menu"></div>
