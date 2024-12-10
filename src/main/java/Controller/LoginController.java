@@ -27,7 +27,14 @@ public class LoginController extends HttpServlet {
 
         if (user != null) {
             req.getSession().setAttribute("user", user);
-            resp.sendRedirect("home");
+            String nameRole = user.getNameRole();
+            System.out.println(nameRole);
+            if (nameRole.equals("admin")) {
+                resp.sendRedirect("admin?action=home");
+            }
+            else {
+                resp.sendRedirect("article?action=home");
+            }
         } else {
             req.setAttribute("errorMessage", "Invalid username or password");
             req.getRequestDispatcher("Login.jsp").forward(req, resp);

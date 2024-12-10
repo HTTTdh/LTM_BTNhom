@@ -133,12 +133,12 @@ public class AdminDAO {
     }
 
     public boolean updateArticles(String title, String content, String category, int id) {
+        System.out.println(category);
         boolean check = false;
         Connection connection = null;
         PreparedStatement ps = null;
         try {
-            // Chuyển category từ chuỗi thành enum
-            Category categoryEnum = Category.valueOf(category.toUpperCase()); // Nếu category là chuỗi "CURRENT_EVENTS"
+//            Category categoryEnum = Category.valueOf(category.toUpperCase()); // Nếu category là chuỗi "CURRENT_EVENTS"
 
             // Kết nối cơ sở dữ liệu
             connection = DBHelper.getConnection();
@@ -146,7 +146,7 @@ public class AdminDAO {
             ps = connection.prepareStatement(sql);
             ps.setString(1, title);
             ps.setString(2, content);
-            ps.setString(3, categoryEnum.name());  // Lưu tên enum vào cơ sở dữ liệu
+            ps.setString(3, category);
             ps.setInt(4, id);
 
             // Thực thi truy vấn

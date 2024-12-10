@@ -131,6 +131,9 @@
               });
     });
   });
+  function syncContent() {
+    document.getElementById('contentInput').value = document.getElementById('content').innerHTML;
+  }
 </script>
 <div class="container">
   <% if (errorMessage != null) { %>
@@ -140,7 +143,7 @@
   <div class="form-container">
     <h1>Cập nhật thông tin bài viết</h1>
 
-    <form action="article?action=edit" method="POST" >
+    <form action="article?action=edit" method="POST" onsubmit="syncContent()">
       <input type="hidden" name="id" value="<%=articleShow.getId()%>">
       <div class="form-group">
         <label for="title">Title:</label>
@@ -161,11 +164,12 @@
       <div class="form-group">
         <div id="contentContainer">
           <button type="button" onclick="openImagePicker()" id="imagePickerButton">Chèn hình ảnh</button>
-          <div name ="content" id="content" class="content-editable" required>
-           <%= articleShow.getContent() != null ? articleShow.getContent() : "" %>
+          <div name="content" id="content" class="content-editable" contenteditable="true">
+            <%= articleShow.getContent() != null ? articleShow.getContent() : "" %>
           </div>
         </div>
       </div>
+
       <input type="hidden" id="contentInput" name="content">
       <button type="submit" >Submit</button>
     </form>
