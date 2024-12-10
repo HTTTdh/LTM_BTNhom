@@ -28,8 +28,9 @@ public class LoginController extends HttpServlet {
         if (user != null) {
             req.getSession().setAttribute("user", user);
             String nameRole = user.getNameRole();
+            System.out.println(user.getFullName());
             System.out.println(nameRole);
-            if (nameRole.equals("admin")) {
+            if (nameRole.equals("ADMIN")) {
                 resp.sendRedirect("admin?action=home");
             }
             else {

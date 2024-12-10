@@ -154,7 +154,8 @@
         <label for="category" id="select-category">Chuyên mục:</label>
         <select id="category" name="category" required>
           <% for (Category category : categories) { %>
-          <option value="<%= category.name() %>" <%= category.name().equals(articleShow.getCategory()) ? "selected" : "" %>>
+          <option value="<%= category.name() %>"
+                  <%= category.getCategory_name().equals(articleShow.getCategory().getCategory_name()) ? "selected" : "" %>>
             <%= category.getCategory_name() %>
           </option>
           <% } %>

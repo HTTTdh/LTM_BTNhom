@@ -138,9 +138,6 @@ public class AdminDAO {
         Connection connection = null;
         PreparedStatement ps = null;
         try {
-//            Category categoryEnum = Category.valueOf(category.toUpperCase()); // Nếu category là chuỗi "CURRENT_EVENTS"
-
-            // Kết nối cơ sở dữ liệu
             connection = DBHelper.getConnection();
             String sql = "update article set title=?, content=?, category=? where id=?";
             ps = connection.prepareStatement(sql);
