@@ -27,30 +27,30 @@ public class AdminController extends HttpServlet {
         String idUser = req.getParameter("idUser");
         switch (action) {
             case "home":{
-                req.getRequestDispatcher("homeAdmin.jsp").forward(req, resp);
+                req.getRequestDispatcher("admin/homeAdmin.jsp").forward(req, resp);
                 break;
             }
             case "listArticle":{
-//                List<ArticleShow> articles = adminBO.listArticles();
-//                req.setAttribute("listArticles", articles);
-//                req.getRequestDispatcher("listArticle.jsp").forward(req, resp);
-//                break;
+                List<ArticleShow> articles = adminBO.listArticles();
+                req.setAttribute("listArticles", articles);
+                req.getRequestDispatcher("admin/listArticle.jsp").forward(req, resp);
+                break;
             }
             case "listUser": {
                 List<UserShow> users = adminBO.listUser();
                 req.setAttribute("listUsers", users);
-                req.getRequestDispatcher("listUser.jsp").forward(req, resp);
+                req.getRequestDispatcher("admin/listUser.jsp").forward(req, resp);
                 break;
             }
             case "editArticle": {
-//                if (idArticles!=null){
-//                    System.out.println(idArticles);
-//                ArticleShow articles = adminBO.getArticles(Integer.parseInt(idArticles));
-//                System.out.println(articles);
-//                req.setAttribute("articles", articles);
-//                RequestDispatcher rd = req.getRequestDispatcher("editArticle.jsp");
-//                rd.forward(req, resp);
-//                }
+                if (idArticles!=null){
+                    System.out.println(idArticles);
+                ArticleShow articles = adminBO.getArticles(Integer.parseInt(idArticles));
+                System.out.println(articles.getTitle());
+                req.setAttribute("articles", articles);
+                RequestDispatcher rd = req.getRequestDispatcher("admin/editArticle.jsp");
+                rd.forward(req, resp);
+                }
             break;
             }
             case "deleteArticle": {
@@ -80,11 +80,11 @@ public class AdminController extends HttpServlet {
                     String author = req.getParameter("author");
                     boolean check = adminBO.updateArticle(title, content, category, id);
                     if (check) {
-                        RequestDispatcher rd = req.getRequestDispatcher("homeAdmin.jsp");
+                        RequestDispatcher rd = req.getRequestDispatcher("admin/homeAdmin.jsp");
                         rd.forward(req, resp);
                     }
                     else {
-                        RequestDispatcher rd = req.getRequestDispatcher("editArticle.jsp");
+                        RequestDispatcher rd = req.getRequestDispatcher("admin/editArticle.jsp");
                         rd.forward(req, resp);
                     }
                 break;
