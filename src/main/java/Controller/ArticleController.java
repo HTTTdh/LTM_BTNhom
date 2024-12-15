@@ -1,9 +1,11 @@
 package Controller;
 
+import Model.BO.AdminBO;
 import Model.BO.ArticleBO;
 import Model.Bean.Article;
 import Model.Bean.ArticleShow;
 import Model.Bean.Category;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,6 +19,7 @@ import java.util.ArrayList;
 @WebServlet("/article")
 public class ArticleController extends HttpServlet {
     public ArticleBO bo = new ArticleBO();
+    public AdminBO adminBO = new AdminBO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)  {
@@ -39,17 +42,6 @@ public class ArticleController extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private void showArticleDetail(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String id = req.getParameter("id");
-        int article_id = Integer.parseInt(id);
-        ArticleShow article = bo.getArticleById(article_id);
-        req.setAttribute("article", article);
-
-        ArrayList<Category> categories = bo.getAllCategories();
-        req.setAttribute("categories", categories);
-        req.getRequestDispatcher("/templates/ArticleDetail.jsp").forward(req, resp);
     }
 
     private void showAddPage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -83,7 +75,16 @@ public class ArticleController extends HttpServlet {
 
         req.getRequestDispatcher("/templates/PageHome.jsp").forward(req, resp);
     }
+    private void showArticleDetail(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String id = req.getParameter("id");
+        int article_id = Integer.parseInt(id);
+        ArticleShow article = bo.getArticleById(article_id);
+        req.setAttribute("article", article);
 
+        ArrayList<Category> categories = bo.getAllCategories();
+        req.setAttribute("categories", categories);
+        req.getRequestDispatcher("/templates/ArticleDetail.jsp").forward(req, resp);
+    }
     private void showSearchResult(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String keyword = req.getParameter("keyword");
         String pageParam = req.getParameter("page");
@@ -94,6 +95,7 @@ public class ArticleController extends HttpServlet {
         req.getRequestDispatcher("/searchResults.jsp").forward(req, resp);
     }
 
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
@@ -102,9 +104,7 @@ public class ArticleController extends HttpServlet {
                 case "add":
                     handleAdd(req, resp);
                     return;
-                case "edit":
-                    handleEdit(req, resp);
-                    return;
+
                     case "delete":
                     handleDelete(req, resp);
             }
@@ -145,9 +145,5 @@ public class ArticleController extends HttpServlet {
         }
 
     }
-
-    private void handleEdit(HttpServletRequest req, HttpServletResponse resp) {
-    }
-
 
 }

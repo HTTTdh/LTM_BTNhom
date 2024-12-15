@@ -8,8 +8,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Báo Điện Tử</title>
-    <link rel="stylesheet" href="../static/css/header_footer_style.css">
-    <link rel="stylesheet" href="../static/css/main_page.css">
+    <link rel="stylesheet" href="./static/css/header_footer_style.css">
+    <link rel="stylesheet" href="./static/css/main_page.css">
     <title>HomePage</title>
 </head>
 <script>
@@ -35,7 +35,7 @@
 <body>
 <header class="header">
     <div class="header-content">
-        <img src="../static/resources/logo.png" alt="Logo" class="logo">
+        <img src="./static/resources/logo.png" alt="Logo" class="logo">
         <div class="text">
             <span id="current-date"></span>
         </div>
@@ -89,7 +89,7 @@
 
     <nav style="padding-top: 25px; padding-bottom: 15px;">
         <ul>
-            <li><a href="/home"><h3>Trang chủ</h3></a></li>
+            <li><a href="article?action=home"><h3>Trang chủ</h3></a></li>
             <%
                 for (Category category : categories) {
             %>
@@ -98,7 +98,7 @@
             <%
                 }
             %>
-            <li><a href="/article?action=add"><h3>Đăng bài</h3></a>
+            <li><a href="article?action=add"><h3>Đăng bài</h3></a>
             <li><a href="#">
                 <div class="hamburger-menu"></div>
                 <div class="hamburger-menu"></div>
@@ -130,6 +130,7 @@
             <% for (int i = 0; i < miniArticles.size(); i++) {
                 ArticleShow article = miniArticles.get(i);
                 String line = miniLines.get(i);
+
             %>
             <div class="small-article">
         <a href="article?action=detail&id=<%=article.getId()%>">
@@ -217,10 +218,6 @@
 <!-- biểu tượng mạng xã hội -->
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 <script>
-    navigateToLogin = () => {
-        window.location.href = "/login";
-    }
-
     const currentDate = new Date();
     document.getElementById('current-date').textContent = currentDate.toLocaleDateString('vi-VN', {
         weekday: 'long',

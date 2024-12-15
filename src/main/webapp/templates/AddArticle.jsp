@@ -12,10 +12,10 @@
 <head>
     <title>New Article</title>
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
-    <script src="../static/scripts/post.js"></script>
-    <link rel="stylesheet" href="../static/css/header_footer_style.css">
-    <link rel="stylesheet" href="../static/css/main_page.css">
-    <link rel="stylesheet" href="../static/css/add_article.css">
+    <script src="./static/scripts/post.js"></script>
+    <link rel="stylesheet" href="./static/css/header_footer_style.css">
+    <link rel="stylesheet" href="./static/css/main_page.css">
+    <link rel="stylesheet" href="./static/css/add_article.css">
 </head>
 <%
     String errorMessage = (String) request.getAttribute("errorMessage");
@@ -24,7 +24,7 @@
 <body>
 <header class="header">
     <div class="header-content">
-        <img src="../static/resources/logo.png" alt="Logo" class="logo">
+        <img src="./static/resources/logo.png" alt="Logo" class="logo">
         <div class="text">
             <span id="current-date"></span>
         </div>
@@ -78,7 +78,7 @@
 
             <nav style="padding-top: 25px; padding-bottom: 15px;">
                 <ul>
-                    <li><a href="/home"><h3>Trang chủ</h3></a></li>
+                    <li><a href="article?action=home"><h3>Trang chủ</h3></a></li>
                     <%
                         for (Category category : categories) {
                     %>
@@ -87,7 +87,7 @@
                     <%
                         }
                     %>
-                    <li><a href="/article?action=add"><h3>Đăng bài</h3></a>
+                    <li><a href="article?action=add"><h3>Đăng bài</h3></a>
                     <li><a href="#">
                         <div class="hamburger-menu"></div>
                         <div class="hamburger-menu"></div>

@@ -10,7 +10,15 @@ public class ArticleShow {
     private Date created_at;
     private UserShow author;
     private String first_image;
-
+    public ArticleShow() {}
+    public ArticleShow(int id, String title, String content, Category category, Date created_at, UserShow author) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.category = category;
+        this.created_at = created_at;
+        this.author = author;
+    }
 
     public ArticleShow(int id, String title, String content, Category category, Date created_at, UserShow author, String first_image) {
         this.id = id;

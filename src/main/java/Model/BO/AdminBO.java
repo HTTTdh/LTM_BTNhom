@@ -14,9 +14,9 @@ public class AdminBO {
     public boolean deleteArticles(int id){
         return adminDAO.deleteArticles(id);
     }
-//    public ArticleShow getArticles(int id){
-//        return adminDAO.getArticles(id);
-//    }
+    public ArticleShow getArticles(int id){
+        return adminDAO.getArticles(id);
+    }
     public boolean updateArticle(String title, String content, String category, int id){
         return adminDAO.updateArticles(title, content, category, id);
     }
@@ -26,7 +26,7 @@ public class AdminBO {
     public List<UserShow> listUser(){
         return adminDAO.listUser();
     }
-//    public List<ArticleShow> listArticles(){
-//        return adminDAO.listArticle();
-//    }
+    public List<ArticleShow> listArticles(){
+        return adminDAO.listArticle();
+    }
 }

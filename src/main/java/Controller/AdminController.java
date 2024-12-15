@@ -1,10 +1,8 @@
 package Controller;
 
 import Model.BO.AdminBO;
-import Model.Bean.Article;
-import Model.Bean.ArticleShow;
-import Model.Bean.User;
-import Model.Bean.UserShow;
+import Model.BO.ArticleBO;
+import Model.Bean.*;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,12 +11,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @WebServlet("/admin")
 public class AdminController extends HttpServlet {
     AdminBO adminBO = new AdminBO();
+    public ArticleBO bo = new ArticleBO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -27,30 +27,32 @@ public class AdminController extends HttpServlet {
         String idUser = req.getParameter("idUser");
         switch (action) {
             case "home":{
-                req.getRequestDispatcher("homeAdmin.jsp").forward(req, resp);
+                req.getRequestDispatcher("admin/homeAdmin.jsp").forward(req, resp);
                 break;
             }
             case "listArticle":{
-//                List<ArticleShow> articles = adminBO.listArticles();
-//                req.setAttribute("listArticles", articles);
-//                req.getRequestDispatcher("listArticle.jsp").forward(req, resp);
-//                break;
+                List<ArticleShow> articles = adminBO.listArticles();
+                req.setAttribute("listArticles", articles);
+                req.getRequestDispatcher("admin/listArticle.jsp").forward(req, resp);
+                break;
             }
             case "listUser": {
                 List<UserShow> users = adminBO.listUser();
                 req.setAttribute("listUsers", users);
-                req.getRequestDispatcher("listUser.jsp").forward(req, resp);
+                req.getRequestDispatcher("admin/listUser.jsp").forward(req, resp);
                 break;
             }
             case "editArticle": {
-//                if (idArticles!=null){
-//                    System.out.println(idArticles);
-//                ArticleShow articles = adminBO.getArticles(Integer.parseInt(idArticles));
-//                System.out.println(articles);
-//                req.setAttribute("articles", articles);
-//                RequestDispatcher rd = req.getRequestDispatcher("editArticle.jsp");
-//                rd.forward(req, resp);
-//                }
+                if (idArticles!=null){
+                    System.out.println(idArticles);
+                ArticleShow articles = adminBO.getArticles(Integer.parseInt(idArticles));
+                System.out.println(articles.getTitle());
+                    ArrayList<Category> categories = bo.getAllCategories();
+                    req.setAttribute("categories", categories);
+                req.setAttribute("articles", articles);
+                req.getRequestDispatcher("templates/EditArticles.jsp").forward(req, resp);
+
+                }
             break;
             }
             case "deleteArticle": {
@@ -80,12 +82,16 @@ public class AdminController extends HttpServlet {
                     String author = req.getParameter("author");
                     boolean check = adminBO.updateArticle(title, content, category, id);
                     if (check) {
-                        RequestDispatcher rd = req.getRequestDispatcher("homeAdmin.jsp");
+                        RequestDispatcher rd = req.getRequestDispatcher("admin/homeAdmin.jsp");
                         rd.forward(req, resp);
                     }
                     else {
-                        RequestDispatcher rd = req.getRequestDispatcher("editArticle.jsp");
-                        rd.forward(req, resp);
+                        ArticleShow articles = adminBO.getArticles(Integer.parseInt(idArticles));
+                        ArrayList<Category> categories = bo.getAllCategories();
+                        req.setAttribute("categories", categories);
+                        req.setAttribute("articles", articles);
+                        req.getRequestDispatcher("templates/EditArticles.jsp").forward(req, resp);
+
                     }
                 break;
             }

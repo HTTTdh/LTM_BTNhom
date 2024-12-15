@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="homeAdmin.css">
+  <link rel="stylesheet" href="./admin/homeAdmin.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
@@ -14,8 +14,8 @@
     <div class="logo">Trang Admin</div>
     <nav>
       <ul>
-        <li><a href="admin?action=listArticle"><i class="fas fa-newspaper"></i> Danh sách bài báo</a></li>
-        <li><a href="admin?action=listUser"><i class="fas fa-users"></i> Danh sách người dùng</a></li>
+        <li><a href="?action=listArticle"><i class="fas fa-newspaper"></i> Danh sách bài báo</a></li>
+        <li><a href="?action=listUser"><i class="fas fa-users"></i> Danh sách người dùng</a></li>
         <li><a href="#settings"><i class="fas fa-cog"></i> Cài đặt </a></li>
         <li><a href="#logout"><i class="fas fa-sign-out-alt"></i> Đăng xuất </a></li>
       </ul>
