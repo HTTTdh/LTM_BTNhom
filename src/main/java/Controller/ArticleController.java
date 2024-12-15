@@ -38,10 +38,6 @@ public class ArticleController extends HttpServlet {
                 case "detail":
                     showArticleDetail(req, resp);
                     return;
-                    case "edit":
-
-                        showEdit(req,resp);
-                        return;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -99,18 +95,7 @@ public class ArticleController extends HttpServlet {
         req.getRequestDispatcher("/searchResults.jsp").forward(req, resp);
     }
 
-    private void showEdit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String id = req.getParameter("id");
-        int article_id = Integer.parseInt(id);
-//        System.out.println(article_id);
-        ArticleShow articleShow = adminBO.getArticles(article_id);
-//        System.out.println(articleShow.getTitle());
-        ArrayList<Category> categories = bo.getAllCategories();
-        req.setAttribute("categories", categories);
-        req.setAttribute("articleShow", articleShow);
-        req.getRequestDispatcher("templates/EditArticles.jsp").forward(req, resp);
 
-    }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
@@ -119,9 +104,7 @@ public class ArticleController extends HttpServlet {
                 case "add":
                     handleAdd(req, resp);
                     return;
-                case "edit":
-                    handleEdit(req, resp);
-                    return;
+
                     case "delete":
                     handleDelete(req, resp);
             }
@@ -162,26 +145,5 @@ public class ArticleController extends HttpServlet {
         }
 
     }
-
-    private void handleEdit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            System.out.println(req.getParameter("id"));
-            int id = Integer.parseInt(req.getParameter("id"));
-            String title = req.getParameter("title");
-            String content = req.getParameter("content");
-            String category = req.getParameter("category");
-
-            boolean check = adminBO.updateArticle(title, content, category, id);
-
-            if (check) {
-                resp.sendRedirect("article?action=home");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            req.setAttribute("errorMessage", "An error occurred while updating the article.");
-        }
-    }
-
 
 }

@@ -41,7 +41,7 @@ public class UserDAO {
     public User login(String username, String password){
         try{
             Connection con = DBHelper.getConnection();
-            String sql = "SELECT * FROM user WHERE username = ? AND password = ?";
+            String sql = "SELECT * FROM User WHERE username = ? AND password = ?";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, username);
             stmt.setString(2, password);

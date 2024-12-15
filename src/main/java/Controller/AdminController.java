@@ -1,10 +1,8 @@
 package Controller;
 
 import Model.BO.AdminBO;
-import Model.Bean.Article;
-import Model.Bean.ArticleShow;
-import Model.Bean.User;
-import Model.Bean.UserShow;
+import Model.BO.ArticleBO;
+import Model.Bean.*;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,12 +11,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @WebServlet("/admin")
 public class AdminController extends HttpServlet {
     AdminBO adminBO = new AdminBO();
+    public ArticleBO bo = new ArticleBO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -47,9 +47,11 @@ public class AdminController extends HttpServlet {
                     System.out.println(idArticles);
                 ArticleShow articles = adminBO.getArticles(Integer.parseInt(idArticles));
                 System.out.println(articles.getTitle());
+                    ArrayList<Category> categories = bo.getAllCategories();
+                    req.setAttribute("categories", categories);
                 req.setAttribute("articles", articles);
-                RequestDispatcher rd = req.getRequestDispatcher("admin/editArticle.jsp");
-                rd.forward(req, resp);
+                req.getRequestDispatcher("templates/EditArticles.jsp").forward(req, resp);
+
                 }
             break;
             }
@@ -84,8 +86,12 @@ public class AdminController extends HttpServlet {
                         rd.forward(req, resp);
                     }
                     else {
-                        RequestDispatcher rd = req.getRequestDispatcher("admin/editArticle.jsp");
-                        rd.forward(req, resp);
+                        ArticleShow articles = adminBO.getArticles(Integer.parseInt(idArticles));
+                        ArrayList<Category> categories = bo.getAllCategories();
+                        req.setAttribute("categories", categories);
+                        req.setAttribute("articles", articles);
+                        req.getRequestDispatcher("templates/EditArticles.jsp").forward(req, resp);
+
                     }
                 break;
             }

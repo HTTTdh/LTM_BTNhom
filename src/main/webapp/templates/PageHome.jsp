@@ -120,7 +120,6 @@
                     <div class="article-content">
                         <h1> <%= mainArticle.getTitle() %> </h1>
                         <p><%= mainLine %></p>
-                        <button class="edit-btn"><a href="article?action=edit&id=<%=mainArticle.getId()%>">Edit</a></button>
                     </div>
                 </div>
             </a>
@@ -140,7 +139,6 @@
                 <img src="<%= article.getFirst_image() %>" alt="Hình ảnh bài viết <%= i %>" class="small-article-image">
                 <h3><%= article.getTitle() %></h3>
                 <p><%= line %></p>
-                <button class="edit-btn"><a href="article?action=edit&id=<%=article.getId()%>">Edit</a></button>
             </div>
         </a>
             </div>
@@ -160,7 +158,6 @@
                     <h3> <%= article.getTitle() %></h3>
                     <img src="<%= article.getFirst_image() %>" style="max-width: 400px" alt="Hình ảnh bài viết 1" class="left-article-image">
                     <p> <%=line%> </p>
-                    <button class="edit-btn"><a href="article?action=edit&id=<%=article.getId()%>">Edit</a></button>
                 </div>
             </a>
             <% } %>
@@ -177,7 +174,6 @@
                                 <h3><%= article.getTitle() %></h3>
                                 <img src="<%= article.getFirst_image() %>" style="max-width: 480px" alt="Hình ảnh bài viết lớn 1" class="right-article-image">
                                 <p><%= line %></p>
-                            <button class="edit-btn"><a href="article?action=edit&id=<%=article.getId()%>">Edit</a></button>
                         </div>
                     </a>
                 <%

@@ -15,7 +15,7 @@
 <%
   String errorMessage = (String) request.getAttribute("errorMessage");
   ArrayList<Category> categories = (ArrayList<Category>) request.getAttribute("categories");
-  ArticleShow articleShow = (ArticleShow) request.getAttribute("articleShow");
+  ArticleShow articleShow = (ArticleShow) request.getAttribute("articles");
 %>
 <body>
 <header class="header">
@@ -143,7 +143,7 @@
   <div class="form-container">
     <h1>Cập nhật thông tin bài viết</h1>
 
-    <form action="article?action=edit" method="POST" onsubmit="syncContent()">
+    <form action="admin?action=editArticle" method="POST" onsubmit="syncContent()">
       <input type="hidden" name="id" value="<%=articleShow.getId()%>">
       <div class="form-group">
         <label for="title">Title:</label>
