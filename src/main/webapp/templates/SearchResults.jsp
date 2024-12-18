@@ -13,52 +13,79 @@
   <link rel="stylesheet" href="./static/css/header_footer_style.css">
   <link rel="stylesheet" href="./static/css/main_page.css">
 </head>
-<%-- <%
-ArrayList<Category> categories = (ArrayList<Category>) request.getAttribute("categories");
-%>  --%>
+
 <style>
-  /* Chỉnh sửa container của bài viết */
-  .article-container {
-    display: block; /* Đảm bảo các bài viết hiển thị theo chiều dọc */
-    margin-bottom: 20px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-  }
-
-  /* Căn chỉnh ảnh */
-  .article-container img {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    margin-bottom: 10px;
-  }
-
-  /* Căn chỉnh nội dung bài viết */
-  .article-content {
-    margin-top: 10px; /* Khoảng cách từ ảnh đến nội dung */
-  }
-
-  .article-container p {
-    margin: 0;
-  }
   html, body {
+    height: 100%; /* Đảm bảo body và html chiếm toàn bộ chiều cao của trang */
     margin: 0;
-    padding: 0;
-    height: 100%;
     display: flex;
     flex-direction: column;
   }
 
   main {
-    flex: 1; /* Đẩy footer xuống dưới cùng */
+    flex: 1; /* Main sẽ chiếm toàn bộ không gian còn lại */
   }
 
   footer {
-
+    padding: 20px;
     text-align: center;
-    padding: 10px 0;
   }
+
+  .list-article {
+    display : flex;
+  }
+  .article-container {
+    display: flex;
+    flex-wrap: wrap; /* Cho phép xuống dòng nếu không đủ không gian */
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 10px;
+    /*border: 1px solid #ddd;*/
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+
+
+  .article-container img {
+    width: 150px; /* Kích thước cố định cho ảnh */
+    height: auto;
+    object-fit: cover; /* Giữ tỉ lệ ảnh */
+  }
+
+  .article-content {
+    flex: 1; /* Nội dung sẽ chiếm phần còn lại */
+    word-wrap: break-word; /* Xuống dòng tự động nếu quá dài */
+  }
+
+  .article-content h2 {
+    margin: 0 0 10px 0;
+    font-size: 1.2em;
+    color: #333;
+  }
+
+  .article-content p {
+    margin: 0;
+    color: #555;
+    line-height: 1.4;
+  }
+  .article-content a {
+    text-decoration: none;
+    color: #333;
+  }
+  hr {
+    margin: 10px 0; /* Khoảng cách trên và dưới */
+    border: none; /* Xoá đường viền mặc định */
+    height: 1px; /* Độ dày của <hr> */
+    background-color: #ddd; /* Màu nền */
+  }
+  .search-result-header {
+    text-align: center; /* Căn giữa tiêu đề */
+    color: purple; /* Màu chữ tím */
+    margin-bottom: 20px; /* Khoảng cách giữa tiêu đề và danh sách bài báo */
+    font-size: 1.5em; /* Kích thước chữ */
+  }
+
 
 
 </style>
@@ -153,36 +180,39 @@ ArrayList<Category> categories = (ArrayList<Category>) request.getAttribute("cat
 </header>
 
 <main>
-  <!-- Content -->
   <% String keyword = (String) request.getAttribute("keyword"); %>
-  <h1 style="color: purple;">Kết quả tìm kiếm cho từ khóa "<%= keyword%>"</h1>
-  <%
-    List<ArticleShow> articleShows = (List<ArticleShow>) request.getAttribute("articleShows");
-    if (articleShows != null && !articleShows.isEmpty()) {
-      for (ArticleShow article : articleShows) {
-  %>
-  <div class="article-container">
-    <p>
+  <h1 class="search-result-header">Kết quả tìm kiếm cho từ khóa "<%= keyword%>"</h1>
+
+  <div class="list-article">
+
+    <%
+      List<ArticleShow> articleShows = (List<ArticleShow>) request.getAttribute("articleShows");
+      if (articleShows != null && !articleShows.isEmpty()) {
+        for (ArticleShow article : articleShows) {
+    %>
+    <div class="article-container">
       <img src="<%= article.getFirst_image() %>" alt="Image" />
-    </p>
-    <div class="article-content">
-      <a href="article?action=detail&id=<%= article.getId() %>">
-        <h2><%= article.getTitle() %></h2>
-      </a>
-      <p><%= article.getContent().substring(0, Math.min(article.getContent().length(), 100)) + "..." %></p>
+      <div class="article-content">
+        <i>Ngày đăng bài: <%= article.getCreated_at() %></i>
+        <a href="article?action=detail&id=<%= article.getId() %>">
+          <h2><%= article.getTitle() %></h2>
+        </a>
+        <p>
+          <%= article.getContent().substring(0, Math.min(article.getContent().length(), 100)) + "..." %>
+        </p>
+        <hr>
+      </div>
     </div>
+    <%
+      }
+    } else {
+    %>
+    <p>Không tìm thấy bài viết nào.</p>
+    <%
+      }
+    %>
+
   </div>
-  <hr>
-  <%
-    }
-  } else {
-  %>
-  <p>Không tìm thấy bài viết nào.</p>
-  <%
-    }
-  %>
-
-
 </main>
 
 <!-- Footer -->
