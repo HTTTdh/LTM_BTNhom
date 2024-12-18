@@ -53,9 +53,15 @@
             <i class="fas fa-cloud"></i> <!-- Biểu tượng mây -->
             <span>21°C</span> <!-- Nhiệt độ -->
         </div>
+<%--        <div>--%>
+<%--            <input type="search" placeholder="Tìm kiếm thông tin...">--%>
+<%--            <button> Submit </button>--%>
+<%--        </div>--%>
         <div>
-            <input type="search" placeholder="Tìm kiếm thông tin...">
-            <button> Submit </button>
+            <form action="article?action=searchinfor" method="POST">
+                <input type="search" name="query" id = "query" placeholder="Tìm kiếm thông tin...">
+                <button type="submit">Submit</button>
+            </form>
         </div>
 
             <%
@@ -93,18 +99,17 @@
             <%
                 for (Category category : categories) {
             %>
-            <li><a href="#"><h3><%= category.getCategory_name() %></h3></a>
-            </li>
+            <!-- Liên kết tới trang chủ để lọc bài viết theo chủ đề -->
+            <li><a href="article?action=categorize&category=<%= category.name() %>"><h3><%= category.getCategory_name() %></h3></a></li>
             <%
                 }
             %>
-            <li><a href="article?action=add"><h3>Đăng bài</h3></a>
+            <li><a href="article?action=add"><h3>Đăng bài</h3></a></li>
             <li><a href="#">
                 <div class="hamburger-menu"></div>
                 <div class="hamburger-menu"></div>
                 <div class="hamburger-menu"></div>
-                </a>
-            </li>
+            </a></li>
         </ul>
     </nav>
         </div>

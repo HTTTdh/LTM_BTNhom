@@ -1,11 +1,10 @@
 package Controller;
 
 import Model.BO.AdminBO;
-import Model.BO.ArticleBO;
 import Model.Bean.Article;
+import Model.BO.ArticleBO;
 import Model.Bean.ArticleShow;
 import Model.Bean.Category;
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -32,8 +31,9 @@ public class ArticleController extends HttpServlet {
                 case "add":
                     showAddPage(req, resp);
                     return;
-                case "search":
-                    showSearchResult(req, resp);
+                case "categorize":
+                    System.out.println("Đã loc ");
+                    showDetailCategory(req, resp);
                     return;
                 case "detail":
                     showArticleDetail(req, resp);
@@ -75,6 +75,50 @@ public class ArticleController extends HttpServlet {
 
         req.getRequestDispatcher("/templates/PageHome.jsp").forward(req, resp);
     }
+
+    private void showDetailCategory(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String categoryParam = req.getParameter("category");
+
+        System.out.println("Chu de da chon la  : " + categoryParam);
+        String selectedCategory = null;
+        if (categoryParam != null) {
+            try {
+                selectedCategory = categoryParam ;
+            } catch (IllegalArgumentException e) {
+                req.setAttribute("error", "Chủ đề không hợp lệ");
+                req.getRequestDispatcher("/templates/PageError.jsp").forward(req, resp);
+                return;
+            }
+        }
+
+        // Lấy danh sách bài viết theo chủ đề
+        ArrayList<Article> articles = bo.getArticlesByCategory(selectedCategory);
+        System.out.println("danh sach bai bao "+ articles);
+        // Danh sách các bài viết đã chuyển đổi sang ArticleShow
+        ArrayList<ArticleShow> ListCategory = new ArrayList<>();
+
+        for (Article article : articles) {
+
+            String firstImage = bo.extractFirstImage(article.getContent());
+            ArticleShow articleShow = new ArticleShow(
+                    article.getId(),
+                    article.getTitle(),
+                    article.getContent(),
+                    article.getCategory(),
+                    article.getCreated_at(),
+                    null,
+                    firstImage
+            );
+
+            ListCategory.add(articleShow);
+        }
+        System.out.println(" đây là danh sách đã lọc : "+ListCategory);
+        req.setAttribute("ListCategory", ListCategory);
+        ArrayList<Category> categories = bo.getAllCategories();
+        req.setAttribute("categories", categories);
+        req.getRequestDispatcher("/templates/category.jsp").forward(req, resp);
+    }
+
     private void showArticleDetail(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
         int article_id = Integer.parseInt(id);
@@ -84,15 +128,6 @@ public class ArticleController extends HttpServlet {
         ArrayList<Category> categories = bo.getAllCategories();
         req.setAttribute("categories", categories);
         req.getRequestDispatcher("/templates/ArticleDetail.jsp").forward(req, resp);
-    }
-    private void showSearchResult(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String keyword = req.getParameter("keyword");
-        String pageParam = req.getParameter("page");
-        int page = (pageParam != null) ? Integer.parseInt(pageParam) : 1;
-        ArrayList<ArticleShow> articles = bo.searchArticles(keyword, page);
-
-        req.setAttribute("articles", articles);
-        req.getRequestDispatcher("/searchResults.jsp").forward(req, resp);
     }
 
 
@@ -104,13 +139,50 @@ public class ArticleController extends HttpServlet {
                 case "add":
                     handleAdd(req, resp);
                     return;
-
+                case "searchinfor":
+                    System.out.println("Đã vào hàm thực hiện chức năng ");
+                    handleSearchListRequest(req, resp);
+                    return;
                     case "delete":
                     handleDelete(req, resp);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void handleSearchListRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String query = req.getParameter("query");
+        System.out.println("Input received: " + query);
+
+        ArrayList<Article> articles = bo.searchListArticleByTitle(query);
+
+        ArrayList<ArticleShow> articleShows = new ArrayList<>();
+
+        for (int i = 0; i < articles.size(); i++) {
+            Article article = articles.get(i);
+
+            // Lấy ảnh đầu tiên từ nội dung bài viết
+            String firstImage = bo.extractFirstImage(article.getContent()); // Trích xuất ảnh đầu tiên
+
+            // Tạo ArticleShow từ Article và thêm ảnh đầu tiên vào
+            ArticleShow articleShow = new ArticleShow(
+                    article.getId(),
+                    article.getTitle(),
+                    article.getContent(),
+                    article.getCategory(),
+                    article.getCreated_at(),
+                    null,
+                    firstImage
+            );
+
+            articleShows.add(articleShow);
+        }
+        req.setAttribute("articleShows", articleShows);
+        req.setAttribute("keyword", query);
+        ArrayList<Category> categories = bo.getAllCategories();
+        req.setAttribute("categories", categories);
+        req.getRequestDispatcher("templates/SearchResults.jsp").forward(req, resp);
     }
 
     private void handleDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
