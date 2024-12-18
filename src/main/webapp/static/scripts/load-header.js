@@ -10,3 +10,4 @@ function loadHeader() {
 
 // tảii header khi trang web được load
 document.addEventListener('DOMContentLoaded', loadHeader);
+

@@ -10,6 +10,7 @@
     <title>Báo Điện Tử</title>
     <link rel="stylesheet" href="./static/css/header_footer_style.css">
     <link rel="stylesheet" href="./static/css/main_page.css">
+    <script src="../static/scripts/load-header.js"></script>
     <title>HomePage</title>
 </head>
 <script>
@@ -82,11 +83,14 @@
         <%
             }else{
         %>
-                    <div>
-                        <button onclick="navigateToLogin()">
-                            <i class="fas fa-sign-in-alt"></i> Đăng nhập
-                        </button>
-                    </div>
+        <div>
+            <button>
+                <a href="Login.jsp">
+                    <i class="fas fa-sign-in-alt"></i> Đăng nhập
+                </a>
+            </button>
+        </div>
+
         <%
             }
         %>

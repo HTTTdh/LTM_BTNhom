@@ -1,7 +1,5 @@
-<%@ page import="Model.Bean.ArticleShow" %>
-<%@ page import="Model.Bean.UserShow" %>
-<%@ page import="Model.Bean.Category" %>
-<%@ page import="java.util.ArrayList" %><%--
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="Model.Bean.*" %><%--
   Created by IntelliJ IDEA.
   User: chauthi
   Date: 09/12/2024
@@ -12,12 +10,13 @@
 <html>
 <%
     ArticleShow article = (ArticleShow) request.getAttribute("article");
+    ArrayList<CommentShow> comments = (ArrayList<CommentShow>) request.getAttribute("comments");
 %>
 <head>
     <title><%= article.getTitle() %></title>
     <link rel="stylesheet" href="./static/css/header_footer_style.css">
     <link rel="stylesheet" href="./static/css/main_page.css">
-    <link rel="stylesheet" href="./static/css/article_detail.css">
+    <link rel="stylesheet" href="../static/css/article_detail.css">
 </head>
 <%
     ArrayList<Category> categories = (ArrayList<Category>) request.getAttribute("categories");
@@ -109,6 +108,38 @@
         <section class="article-content">
             <p><%= article.getContent() %></p>
         </section>
+    </div>
+    <div class="comments-section">
+        <h2 class="comments-title">Bình luận</h2>
+        <%
+            if (session.getAttribute("user") != null) {
+                UserShow user = (UserShow) session.getAttribute("user");
+        %>
+        <!-- Form thêm bình luận -->
+        <form class="comment-form" action="comment?action=add" method="post">
+            <input type="hidden" name="article_id" value="<%= article.getId() %>">
+            <input type="hidden" name="user_id" value="<%= user.getId()%>">
+            <textarea name="content" class="comment-input" placeholder="Hãy viết bình luận của bạn..." required></textarea>
+            <button type="submit" class="comment-submit">Đăng bình luận</button>
+        </form>
+        <% } else { %>
+            <p class="comment-login">Đăng nhập để bình luận</p>
+        <% } %>
+
+        <!-- Danh sách các bình luận -->
+        <div class="comments-list">
+            <% if (comments == null || comments.isEmpty()) { %>
+                <p class="no-comments">Chưa có bình luận! Hãy là người bình luận đầu tiên</p>
+            <% } else { %>
+            <% for (CommentShow comment : comments) { %>
+            <div class="comment">
+                <p class="comment-user">Người dùng <%= comment.getUser().getFullName() %> bình luận:</p>
+                <p class="comment-text"><%= comment.getContent() %></p>
+                <p class="comment-date"><%= comment.getCreated_at() %></p>
+            </div>
+            <% } %>
+            <% }%>
+        </div>
     </div>
 </main>
 </body>
