@@ -83,11 +83,14 @@
         <%
             }else{
         %>
-                    <div>
-                        <button onclick="navigateToLogin()">
-                            <i class="fas fa-sign-in-alt"></i> Đăng nhập
-                        </button>
-                    </div>
+        <div>
+            <button>
+                <a href="Login.jsp">
+                    <i class="fas fa-sign-in-alt"></i> Đăng nhập
+                </a>
+            </button>
+        </div>
+
         <%
             }
         %>

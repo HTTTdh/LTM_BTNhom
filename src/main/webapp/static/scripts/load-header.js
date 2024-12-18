@@ -11,6 +11,3 @@ function loadHeader() {
 // tảii header khi trang web được load
 document.addEventListener('DOMContentLoaded', loadHeader);
 
-function navigateToLogin() {
-    window.location.href = '/login';
-}
