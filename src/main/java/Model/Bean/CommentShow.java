@@ -2,26 +2,19 @@ package Model.Bean;
 
 import java.util.Date;
 
-public class Comment {
+public class CommentShow {
     private int id;
     private int article_id;
-    private int user_id;
+    private UserShow user;
     private String content;
     private Date created_at;
 
-    public Comment(int id, int article_id, int user_id, String content, Date created_at) {
+    public CommentShow(int id, int article_id, UserShow user, String content, Date created_at) {
         this.id = id;
         this.article_id = article_id;
-        this.user_id = user_id;
+        this.user = user;
         this.content = content;
         this.created_at = created_at;
-    }
-
-    public Comment(int article_id, int user_id, String content) {
-        this.article_id = article_id;
-        this.user_id = user_id;
-        this.content = content;
-        this.created_at = new Date();
     }
 
     public int getId() {
@@ -40,12 +33,12 @@ public class Comment {
         this.article_id = article_id;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public UserShow getUser() {
+        return user;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUser(UserShow user) {
+        this.user = user;
     }
 
     public String getContent() {

@@ -1,11 +1,8 @@
 package Controller;
 
-import Model.BO.AdminBO;
 import Model.BO.ArticleBO;
-import Model.Bean.Article;
-import Model.Bean.ArticleShow;
-import Model.Bean.Category;
-import jakarta.servlet.RequestDispatcher;
+import Model.BO.CommentBO;
+import Model.Bean.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -19,7 +16,7 @@ import java.util.ArrayList;
 @WebServlet("/article")
 public class ArticleController extends HttpServlet {
     public ArticleBO bo = new ArticleBO();
-    public AdminBO adminBO = new AdminBO();
+    public CommentBO commentBO = new CommentBO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)  {
@@ -78,11 +75,19 @@ public class ArticleController extends HttpServlet {
     private void showArticleDetail(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
         int article_id = Integer.parseInt(id);
+
+        String pageParam = req.getParameter("page");
+        int page = (pageParam != null) ? Integer.parseInt(pageParam) : 1;
+
         ArticleShow article = bo.getArticleById(article_id);
         req.setAttribute("article", article);
 
         ArrayList<Category> categories = bo.getAllCategories();
         req.setAttribute("categories", categories);
+
+        ArrayList<CommentShow> comments = commentBO.getTenCommentsPerPage(page, article_id);
+        req.setAttribute("comments", comments);
+
         req.getRequestDispatcher("/templates/ArticleDetail.jsp").forward(req, resp);
     }
     private void showSearchResult(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
