@@ -46,14 +46,6 @@
 
     <main class="main-content">
         <h1>Danh sách người dùng</h1>
-        <div class="actions">
-            <input type="text" placeholder="Search articles..." class="search-bar">
-            <select class="filter">
-                <option value="">All</option>
-                <option value="approved">Approved</option>
-                <option value="pending">Pending</option>
-            </select>
-        </div>
         <table class="data-table">
             <thead>
             <tr>
