@@ -25,6 +25,14 @@ public class ArticleBO {
         return new ArrayList<>(Arrays.asList(Category.values()));
     }
 
+    public ArrayList<Article> getArticlesByCategory(String selectedCategory) {
+        return dao.getArticlesByCategory(selectedCategory);
+    }
+
+    public ArrayList<Article> searchListArticleByTitle(String title) {
+        return dao.searchListArticleByTitle(title);
+    }
+
     public boolean addArticle(Article article) {
         return dao.addNewArticle(article);
     }
@@ -61,7 +69,7 @@ public class ArticleBO {
         return mapToArticleResponseWithImage(article);
     }
 
-    private String extractFirstImage(String content) { // tìm tất cả các thẻ hình ảnh <img> trong nội dung bài viết.
+   public String extractFirstImage(String content) { // tìm tất cả các thẻ hình ảnh <img> trong nội dung bài viết.
         // Lấy ra URL của hình ảnh đầu tiên từ kết quả tìm kiếm.
         Pattern pattern = Pattern.compile("<img[^>]+src=\"([^\"]+)\"");
         Matcher matcher = pattern.matcher(content);

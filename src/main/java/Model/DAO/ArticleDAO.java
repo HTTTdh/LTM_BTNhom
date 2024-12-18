@@ -129,6 +129,64 @@ public class ArticleDAO {
         }
     }
 
+    public ArrayList<Article> getArticlesByCategory(String selectedCategory) {
+        ArrayList<Article> articles = new ArrayList<>();
+
+        try {
+            Connection connection = DBHelper.getConnection();
+            String sql = "SELECT * FROM Article WHERE category = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+
+            ps.setString(1, selectedCategory);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Article article = new Article(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getDate(5),
+                        rs.getInt(6)
+                );
+                articles.add(article);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return articles;
+    }
+
+    public ArrayList<Article> searchListArticleByTitle(String title) {
+        ArrayList<Article> articles = new ArrayList<>();
+        try {
+            Connection con = DBHelper.getConnection();
+            String query = "SELECT * FROM Article WHERE title LIKE ?"; // Lấy tất cả bài viết có tiêu đề chứa từ khóa
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setString(1, "%" + title + "%"); // Tìm kiếm bài báo có tiêu đề chứa từ khóa
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+
+                Article article = new Article(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getDate(5),
+                        rs.getInt(6)
+                );
+                articles.add(article);
+            }
+            rs.close();
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return articles;
+    }
+
+
     public ArrayList<Article> searchArticles(String keyword, int page) {
         int offset = (page - 1) * PAGE_SIZE;
         try {
